@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "crm-postgres": {
+      "type": "stdio",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e",
+        "DATABASE_URI=postgresql://crm_app:crm_app@host.docker.internal:5433/crm",
+        "crystaldba/postgres-mcp",
+        "--access-mode=restricted"
+      ],
+      "env": {}
+    }
+  }
+}
