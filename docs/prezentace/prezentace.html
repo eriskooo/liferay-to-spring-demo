@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<title>Migrace blacklistu na Spring Boot – postup k odsouhlasení</title>
+<!-- Zdroj PDF prezentace pro tým stávající aplikace. PDF: viz docs/prezentace/README.md. Screenshoty z běžícího dema (img/). -->
+<style>
+  @page { size: 1280px 720px; margin: 0; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: "Segoe UI", Helvetica, Arial, sans-serif; color: #1d2433; background: #e9edf2; }
+  .slide {
+    width: 1280px; height: 720px; padding: 56px 72px 48px; position: relative; overflow: hidden;
+    background: #fff; page-break-after: always; break-after: page; margin: 0 auto 24px;
+    display: flex; flex-direction: column;
+  }
+  @media print { body { background: #fff; } .slide { margin: 0; } }
+  .slide::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 10px; background: #2f4558; }
+  .num { position: absolute; right: 40px; bottom: 26px; font-size: 14px; color: #8a93a3; }
+  .kicker { font-size: 15px; letter-spacing: .08em; text-transform: uppercase; color: #1f7a8c; font-weight: 600; margin: 0 0 6px; }
+  h1 { font-size: 40px; margin: 0 0 22px; color: #2f4558; line-height: 1.15; }
+  h2 { font-size: 22px; margin: 0 0 10px; color: #2f4558; }
+  p, li { font-size: 21px; line-height: 1.45; }
+  p { margin: 0 0 12px; }
+  ul { margin: 0; padding-left: 26px; }
+  li { margin-bottom: 8px; }
+  .lead { font-size: 23px; color: #3b4558; }
+  .muted { color: #5b6475; }
+  .small { font-size: 16px; }
+  code, .mono { font-family: Consolas, "Cascadia Mono", monospace; font-size: 0.86em; }
+  .row { display: flex; gap: 32px; flex: 1; min-height: 0; }
+  .col { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+  .shot { border: 1px solid #d5dbe3; border-radius: 8px; box-shadow: 0 4px 14px rgba(29,36,51,.10); max-width: 100%; display: block; }
+  .cap { font-size: 15px; color: #5b6475; margin-top: 8px; }
+  .tag { display: inline-block; font-size: 14px; font-weight: 600; padding: 3px 10px; border-radius: 12px; margin-bottom: 8px; }
+  .tag.old { background: #eef1f5; color: #2f4558; }
+  .tag.new { background: #e3f3ee; color: #17694f; }
+  .box { background: #f4f6f8; border-radius: 10px; padding: 18px 22px; }
+  .box.green { background: #eaf6f0; }
+  .box.amber { background: #fdf4e3; }
+  pre { margin: 0; background: #1f2633; color: #e6e9ef; border-radius: 8px; padding: 14px 16px; font-size: 14px; line-height: 1.45;
+        font-family: Consolas, "Cascadia Mono", monospace; white-space: pre-wrap; word-break: break-all; }
+  pre .hl { color: #8fd6b4; }
+  table { border-collapse: collapse; width: 100%; font-size: 19px; }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid #e1e6ec; vertical-align: top; line-height: 1.35; }
+  th { background: #f4f6f8; color: #2f4558; font-size: 16px; text-transform: uppercase; letter-spacing: .04em; }
+  .steps { display: flex; gap: 14px; margin-top: 8px; }
+  .step { flex: 1; background: #f4f6f8; border-radius: 10px; padding: 16px; }
+  .step b { display: block; font-size: 30px; color: #1f7a8c; }
+  .step span { font-size: 17px; line-height: 1.35; display: block; }
+  .title-slide { justify-content: center; background: linear-gradient(135deg, #2f4558 0%, #24384a 100%); color: #fff; }
+  .title-slide::before { background: #1f7a8c; }
+  .title-slide h1 { color: #fff; font-size: 52px; margin-bottom: 18px; }
+  .title-slide .lead { color: #d4dce6; font-size: 26px; }
+  .title-slide .num { display: none; }
+  .check li { list-style: none; position: relative; }
+  .check li::before { content: "✓"; position: absolute; left: -26px; color: #17694f; font-weight: 700; }
+  .ask li { list-style: none; position: relative; }
+  .ask li::before { content: "?"; position: absolute; left: -26px; color: #b26b00; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<!-- 1 -->
+<section class="slide title-slide">
+  <p class="kicker" style="color:#8fd6b4">Pilot: modul blacklist</p>
+  <h1>Migrace z Liferay 6.2 na Spring Boot<br>postup k odsouhlasení</h1>
+  <p class="lead">Pro tým stávající aplikace: co se u vás změní, co zůstane, jak to ověřujeme.</p>
+  <p class="lead" style="margin-top:40px;font-size:18px;color:#a9b6c6">Listopad 2026 · ukázky z běžícího dema</p>
+</section>
+
+<!-- 2 -->
+<section class="slide">
+  <p class="kicker">Shrnutí</p>
+  <h1>O čem rozhodujeme</h1>
+  <div class="steps" style="margin-top:20px">
+    <div class="step"><b>1</b><span><strong>Postupná náhrada.</strong> Moduly se přesouvají po jednom do nové aplikace (Spring Boot). Liferay běží dál.</span></div>
+    <div class="step"><b>2</b><span><strong>Malé úpravy u vás.</strong> Stará aplikace dostane sdílenou session v Redisu. Controllery a JSP zůstávají.</span></div>
+    <div class="step"><b>3</b><span><strong>Ověřeno a vratné.</strong> Stejné testy procházejí na staré i nové aplikaci. Návrat zpět = jedno pravidlo v nginx.</span></div>
+  </div>
+  <p class="lead" style="margin-top:36px">Pro uživatele se nic nemění: stejné obrazovky, texty, přihlášení i oprávnění.</p>
+  <p class="muted small">Pilot: blacklist je zmigrovaný, dashboard zůstává v Liferay. Následující ukázky jsou z běžícího dema (Docker).</p>
+  <div class="num">2</div>
+</section>
+
+<!-- 3 -->
+<section class="slide">
+  <p class="kicker">Architektura souběhu</p>
+  <h1>Dvě aplikace za jedním vstupem</h1>
+  <div class="row">
+    <div class="col" style="flex:0 0 640px">
+      <img src="../img/architektura-subeh.svg" style="width:640px;height:auto" alt="Architektura souběhu">
+    </div>
+    <div class="col" style="justify-content:center">
+      <ul>
+        <li><strong>nginx</strong> je jediný vstup. Zmigrované adresy posílá do nové aplikace, ostatní do Liferay.</li>
+        <li><strong>SSO</strong> zůstává. Obě aplikace poznají operátora ze stejné cookie <code>SSO_ID</code>.</li>
+        <li><strong>Redis</strong> drží sdílenou session (poslední záznam, kritéria, hlášky) ve stejném JSON.</li>
+        <li><strong>Databáze</strong> je jedna, se stejnými tabulkami. Data se nemigrují.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="num">3</div>
+</section>
+
+<!-- 4 -->
+<section class="slide">
+  <p class="kicker">Ukázka · krok 1</p>
+  <h1>Operátor pracuje ve stávající aplikaci</h1>
+  <div class="row">
+    <div class="col" style="flex:0 0 760px">
+      <span class="tag old">Liferay 6.2 · /web/crm/dashboard</span>
+      <img class="shot" src="img/01-legacy-dashboard.png" alt="Dashboard ve staré aplikaci">
+    </div>
+    <div class="col" style="justify-content:center">
+      <p>Dashboard zůstává v Liferay, beze změny.</p>
+      <p>Ladicí řádek v hlavičce ukazuje, odkud stará aplikace čte session: <code>zdroj čtení = REDIS</code>.</p>
+      <p class="muted small">Řádek je jen v demu, v produkci se nezobrazuje.</p>
+    </div>
+  </div>
+  <div class="num">4</div>
+</section>
+
+<!-- 5 -->
+<section class="slide">
+  <p class="kicker">Ukázka · krok 2</p>
+  <h1>Klik na „Blacklist“ otevře novou aplikaci</h1>
+  <div class="row" style="flex:0 0 auto">
+    <div class="col">
+      <span class="tag old">Původně: Liferay portlet</span>
+      <img class="shot" src="img/05-legacy-vyhledavani.png" alt="Vyhledávání ve staré aplikaci">
+    </div>
+    <div class="col">
+      <span class="tag new">Nově: Spring Boot · /crm/blacklist/search</span>
+      <img class="shot" src="img/02-nova-vyhledavani.png" alt="Vyhledávání v nové aplikaci">
+    </div>
+  </div>
+  <p style="margin-top:18px">nginx přesměruje <code>/web/crm/blacklist</code> na novou aplikaci. Obrazovka, texty i operátor zůstávají stejné,
+     pozná se to jen podle záhlaví. JSP stránky jsou přenesené 1:1 se stejnými tagy (<code>portal:*</code>, <code>common:*</code>).</p>
+  <div class="num">5</div>
+</section>
+
+<!-- 6 -->
+<section class="slide">
+  <p class="kicker">Ukázka · krok 3</p>
+  <h1>Změna v nové aplikaci: zápis do DB</h1>
+  <div class="row">
+    <div class="col" style="flex:0 0 660px">
+      <span class="tag new">Spring Boot · detail záznamu</span>
+      <img class="shot" src="img/03-nova-zmena-stavu.png" alt="Změna stavu v nové aplikaci">
+    </div>
+    <div class="col">
+      <p>Operátor změní stav na <strong>Neaktivní</strong>. Nová aplikace zapíše do sdílené DB a do audit logu.</p>
+      <h2 style="font-size:17px;margin-top:6px">Databáze (Postgres, schéma blacklist)</h2>
+<pre> id | first_name | last_name |  state   |  valid_to
+  1 | Petr       | Vzorka    | <span class="hl">INACTIVE</span> | 2026-11-02</pre>
+      <h2 style="font-size:17px;margin-top:14px">Audit log (stejný formát v obou aplikacích)</h2>
+<pre>AUDIT event=<span class="hl">blacklist.change</span> recordId=1
+  operator=spravca state=INACTIVE
+  validTo=2026-11-02</pre>
+    </div>
+  </div>
+  <div class="num">6</div>
+</section>
+
+<!-- 7 -->
+<section class="slide">
+  <p class="kicker">Ukázka · krok 4</p>
+  <h1>Stará aplikace vidí sdílenou session</h1>
+  <div class="row">
+    <div class="col" style="flex:0 0 760px">
+      <span class="tag old">Liferay 6.2 · zpět na dashboard</span>
+      <img class="shot" src="img/04-legacy-sdilena-session.png" alt="Dashboard ukazuje poslední záznam z nové aplikace">
+    </div>
+    <div class="col">
+      <p>Hlavička v Liferay ukazuje <strong>„Naposledy otevřený záznam: Petr Vzorka“</strong>. Ten otevřela nová aplikace.</p>
+      <h2 style="font-size:17px">Redis: hash crm:session:{SSO_ID}</h2>
+<pre>APP_LAST_VIEWED_RECORD
+  {"id":1,"fullName":"<span class="hl">Petr Vzorka</span>"}
+APP_BLACKLIST_LAST_CRITERIA
+  {"lastName":"Vzork", …}</pre>
+    </div>
+  </div>
+  <div class="num">7</div>
+</section>
+
+<!-- 8 -->
+<section class="slide">
+  <p class="kicker">Ukázka · krok 5</p>
+  <h1>Stará aplikace čte stejná data</h1>
+  <div class="row">
+    <div class="col" style="flex:0 0 660px">
+      <span class="tag old">Liferay 6.2 · starý portlet (mimo nginx)</span>
+      <img class="shot" src="img/06-legacy-detail-z-db.png" alt="Detail ve staré aplikaci ukazuje stav Neaktivní">
+    </div>
+    <div class="col" style="justify-content:center">
+      <p>Starý portlet blacklistu ukazuje stav <strong>Neaktivní</strong> a platnost do 2026-11-02, tedy hodnoty, které zapsala nová aplikace.</p>
+      <p>Obě aplikace pracují nad jednou databází. Při souběhu ani při návratu zpět se data nepřevádějí.</p>
+    </div>
+  </div>
+  <div class="num">8</div>
+</section>
+
+<!-- 9 -->
+<section class="slide">
+  <p class="kicker">Pro tým stávající aplikace</p>
+  <h1>Co se mění ve staré aplikaci</h1>
+  <table>
+    <tr><th style="width:24%">Oblast</th><th>Úprava</th><th style="width:28%">Rozsah v pilotu</th></tr>
+    <tr><td><strong>Session fasáda</strong></td>
+        <td>Zapisuje i do Redisu (JSON). Odkud se čte, určuje přepínač <code>PORTLET</code> / <code>REDIS</code>, přepíná se za běhu bez restartu.</td>
+        <td>několik malých tříd pod fasádou (~300 řádků); controllery beze změny</td></tr>
+    <tr><td><strong>Výpadek Redisu</strong></td>
+        <td>Zápis se jen zaloguje a čtení se vrátí k PortletSession. Stránka běží dál.</td>
+        <td>ověřeno smoke testem</td></tr>
+    <tr><td><strong>Vstup (nginx)</strong></td>
+        <td>nginx před Liferay. Zmigrovaný modul = jedno přesměrování.</td>
+        <td>1 pravidlo na modul</td></tr>
+    <tr><td><strong>Konzistence session</strong></td>
+        <td>Kontrola vlastníka session při změně operátora. Zneplatnění dat v session po změně v nové aplikaci.</td>
+        <td>plán, mimo pilot</td></tr>
+    <tr><td><strong>Backend</strong></td>
+        <td>API nad stávajícími službami (včetně transakčních operací). Stávající volání se nemění.</td>
+        <td>plán, po analýze backendu</td></tr>
+  </table>
+  <p class="muted small" style="margin-top:14px">Všechny úpravy přidávají, nic neodebírají. Nasazují se standardním release procesem před přepnutím prvního modulu.</p>
+  <div class="num">9</div>
+</section>
+
+<!-- 10 -->
+<section class="slide">
+  <p class="kicker">Pro tým stávající aplikace</p>
+  <h1>Co zůstává beze změny</h1>
+  <div class="row" style="flex:0 0 auto">
+    <div class="col box green">
+      <ul class="check">
+        <li>Controllery, JSP a vlastní tagy stávajících modulů</li>
+        <li>Přihlášení přes SSO a oprávnění operátorů (ACL)</li>
+        <li>Databázové tabulky a datová vrstva staré aplikace</li>
+        <li>Formát audit logu</li>
+        <li>Vývoj a release stávající aplikace během migrace</li>
+      </ul>
+    </div>
+    <div class="col box">
+      <h2>Nová aplikace se přizpůsobuje staré</h2>
+      <p class="small">Tagy <code>portal:*</code> a <code>common:*</code> mají stejné rozhraní, liší se jen implementace (bez Liferay).
+         Session fasáda dodržuje stejný kontrakt. Klíče v Redisu i formát auditu jsou společné.</p>
+      <p class="small">Nová aplikace má vlastní cookie <code>CRM_SESSION</code> (path <code>/crm</code>), takže nepřepíše <code>JSESSIONID</code> Liferay.</p>
+    </div>
+  </div>
+  <div class="num">10</div>
+</section>
+
+<!-- 11 -->
+<section class="slide">
+  <p class="kicker">Bezpečnost postupu</p>
+  <h1>Jak ověřujeme a jak se vrátit</h1>
+  <div class="row" style="flex:0 0 auto">
+    <div class="col box">
+      <h2>Testy shodného chování</h2>
+      <p class="small">E2e testy (Playwright) jsou napsané nad starou aplikací. Beze změny musí projít i na nové.
+         Kontrolují obrazovku, stav databáze a audit log.</p>
+      <table style="font-size:17px">
+        <tr><td>Scénáře (blacklist)</td><td>7</td></tr>
+        <tr><td>Stará aplikace</td><td>zelené</td></tr>
+        <tr><td>Nová aplikace</td><td>zelené</td></tr>
+        <tr><td>Smoke testy souběhu</td><td>zelené</td></tr>
+      </table>
+    </div>
+    <div class="col box amber">
+      <h2>Návrat zpět</h2>
+      <ul class="small" style="padding-left:22px">
+        <li style="font-size:17px">Odebrat přesměrování v nginx: uživatelé jsou znovu ve starém portletu.</li>
+        <li style="font-size:17px">Žádné nasazení, žádný převod dat: DB i session jsou sdílené.</li>
+        <li style="font-size:17px">Přepínač session (<code>PORTLET</code>/<code>REDIS</code>) se mění za běhu.</li>
+      </ul>
+      <p class="small muted" style="margin-top:12px">Rozdíly se opravují v nové aplikaci, nikdy v testu.</p>
+    </div>
+  </div>
+  <div class="num">11</div>
+</section>
+
+<!-- 12 -->
+<section class="slide">
+  <p class="kicker">Další krok</p>
+  <h1>Prosíme o odsouhlasení</h1>
+  <div class="row" style="flex:0 0 auto">
+    <div class="col">
+      <h2>K odsouhlasení</h2>
+      <ul class="ask">
+        <li>Postupná náhrada po modulech, souběh za nginx</li>
+        <li>Úprava session fasády: zápis do Redisu a přepínač čtení</li>
+        <li>Sdílená databáze bez převodu dat</li>
+        <li>Testy na staré aplikaci jako podmínka převzetí modulu</li>
+      </ul>
+    </div>
+    <div class="col box">
+      <h2>Od vás potřebujeme</h2>
+      <ul class="small" style="padding-left:22px">
+        <li style="font-size:18px">Kontrolu úprav session fasády (code review)</li>
+        <li style="font-size:18px">Zařazení úprav do vašeho release procesu</li>
+        <li style="font-size:18px">Spolupráci na scénářích testů pro další modul</li>
+        <li style="font-size:18px">Přístup k backendu a internímu Maven repozitáři</li>
+      </ul>
+    </div>
+  </div>
+  <p class="muted small" style="margin-top:22px">Demo je spustitelné lokálně (<code>docker/build-and-deploy.sh</code>), testy: <code>docker/e2e.sh all</code>.</p>
+  <div class="num">12</div>
+</section>
+
+</body>
+</html>
