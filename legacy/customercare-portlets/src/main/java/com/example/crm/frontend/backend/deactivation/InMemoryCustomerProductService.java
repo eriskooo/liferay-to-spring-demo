@@ -9,11 +9,11 @@ import java.util.stream.Collectors;
 public class InMemoryCustomerProductService implements CustomerProductService {
 
     private final List<CustomerProduct> products = Arrays.asList(
-            new CustomerProduct("T-1", "C-1001", "Tarif Neobmedzený", ProductType.TARIFF, "Neobmedzené dáta, volania a SMS"),
-            new CustomerProduct("T-2", "C-1001", "Tarif Štandard", ProductType.TARIFF, "5 GB dát, 100 minút"),
-            new CustomerProduct("P-1", "C-1001", "+421 900 000 001", ProductType.PRODUCT, "Mobilné číslo – Tarif Neobmedzený"),
-            new CustomerProduct("T-3", "C-1002", "Firemný tarif", ProductType.TARIFF, "Zdieľané dáta pre firmu"),
-            new CustomerProduct("P-2", "C-1002", "+421 900 000 002", ProductType.PRODUCT, "Mobilné číslo – Firemný tarif"));
+            new CustomerProduct("T-1", "C-1001", "Tarif Neomezený", ProductType.TARIFF, "Neomezená data, volání a SMS"),
+            new CustomerProduct("T-2", "C-1001", "Tarif Standard", ProductType.TARIFF, "5 GB dat, 100 minut"),
+            new CustomerProduct("P-1", "C-1001", "+420 600 000 001", ProductType.PRODUCT, "Mobilní číslo – Tarif Neomezený"),
+            new CustomerProduct("T-3", "C-1002", "Firemní tarif", ProductType.TARIFF, "Sdílená data pro firmu"),
+            new CustomerProduct("P-2", "C-1002", "+420 600 000 002", ProductType.PRODUCT, "Mobilní číslo – Firemní tarif"));
 
     @Override
     public List<CustomerProduct> productsOf(String customerId) {

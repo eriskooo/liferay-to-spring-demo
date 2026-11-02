@@ -33,7 +33,7 @@ class BlacklistCharacterizationIT {
     @Test
     @DisplayName("1 Čítanie: vyhľadanie podľa mena s diakritikou nájde jeden záznam a nič nezmení")
     void should_findOneRecord_when_searchingFirstNameWithDiacritics(E2eSession e2e) {
-        ResultPage result = new SearchPage(e2e.page()).searchByFirstName("Mária");
+        ResultPage result = new SearchPage(e2e.page()).searchByFirstName("Věra");
 
         assertThat(result.recordIds()).containsExactly(2L);
         assertThat(e2e.db().recordCount()).isEqualTo(8);
@@ -60,8 +60,8 @@ class BlacklistCharacterizationIT {
                 .changeState("INACTIVE", "");
 
         LocalDate today = e2e.db().today();
-        assertThat(detail.messages()).contains("Stav záznamu bol zmenený.");
-        assertThat(detail.state()).isEqualTo("Neaktívny");
+        assertThat(detail.messages()).contains("Stav záznamu byl změněn.");
+        assertThat(detail.state()).isEqualTo("Neaktivní");
         assertThat(e2e.db().record(1)).hasValueSatisfying(row -> {
             assertThat(row.state()).isEqualTo("INACTIVE");
             assertThat(row.validTo()).isEqualTo(today);
@@ -75,7 +75,7 @@ class BlacklistCharacterizationIT {
     void should_rejectNote_when_textEmpty(E2eSession e2e) {
         DetailPage detail = new SearchPage(e2e.page()).searchByLastName("Vzorka").openDetail(1).addNote("");
 
-        assertThat(detail.bodyText()).contains("Poznámka nesmie byť prázdna.");
+        assertThat(detail.bodyText()).contains("Poznámka nesmí být prázdná.");
         assertThat(e2e.db().notes(1)).extracting(NoteRow::author).containsExactly("Systém");
         assertThat(e2e.log().auditEvents()).isEmpty();
     }
@@ -99,12 +99,12 @@ class BlacklistCharacterizationIT {
     @Test
     @DisplayName("4b AJAX: posledný identifikátor nejde odstrániť – hláška vo fragmente, DB bez zmeny, bez auditu")
     void should_keepLastIdentifier_when_removingIt(E2eSession e2e) {
-        DetailPage detail = new SearchPage(e2e.page()).searchByFirstName("Mária").openDetail(2);
+        DetailPage detail = new SearchPage(e2e.page()).searchByFirstName("Věra").openDetail(2);
 
         detail.removeIdentifier(3);
 
         PlaywrightAssertions.assertThat(detail.identifiers())
-                .containsText("Posledný identifikátor nie je možné odstrániť.");
+                .containsText("Poslední identifikátor nelze odstranit.");
         assertThat(e2e.db().identifiers(2)).extracting(IdentifierRow::id).containsExactly(3L);
         assertThat(e2e.log().auditEvents()).isEmpty();
     }
@@ -118,7 +118,7 @@ class BlacklistCharacterizationIT {
         DetailPage detail = create.submit("Nový", "Záznam", "1990-01-01", "MANUAL_APPROVAL", "ID_CARD", "ZZ123456");
 
         assertThat(detail.heading()).contains("Nový Záznam");
-        assertThat(detail.messages()).contains("Záznam bol vytvorený.");
+        assertThat(detail.messages()).contains("Záznam byl vytvořen.");
         assertThat(e2e.db().recordCount()).isEqualTo(9);
         assertThat(e2e.db().record(9)).map(RecordRow::state).contains("ACTIVE");
         assertThat(e2e.db().identifiers(9)).containsExactly(new IdentifierRow(11L, "ID_CARD", "ZZ123456"));

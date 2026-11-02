@@ -25,23 +25,23 @@ bash docker/smoke-migration.sh       # souběh – na konci "MIGRATION SMOKE OK"
 ## Proklikání souběhu
 
 1. Otevři **http://localhost:8000** – nová aplikace vyžaduje přihlášení, proto tě hned přesměruje na SSO mock:
-   vyber *Správca*, zákazník *C-1001* → **Prihlásiť**.
+   vyber *Správce*, zákazník *C-1001* → **Přihlásit**.
 2. Navigace **Blacklist** v Liferay (nebo http://localhost:8000/web/crm/blacklist) → nginx přesměruje na
    `/crm/blacklist/search`. Hlavička vypadá stejně, ale je to Spring Boot – ladicí řádek ukazuje
-   *zdroj čítania = Redis (nová appka), flag starej appky = PORTLET, SSO_ID = …*.
-3. Vyhledej příjmení `vzork` → otevři **Peter Vzorka**. Hlavička nové aplikace ukáže *Naposledy otvorený záznam*.
-   V terminálu: `bash docker/show-session.sh` → v hashi je `APP_LAST_VIEWED_RECORD {"id":1,"fullName":"Peter Vzorka"}`
+   *zdroj čtení = Redis (nová aplikace), flag staré aplikace = PORTLET, SSO_ID = …*.
+3. Vyhledej příjmení `vzork` → otevři **Petr Vzorka**. Hlavička nové aplikace ukáže *Naposledy otevřený záznam*.
+   V terminálu: `bash docker/show-session.sh` → v hashi je `APP_LAST_VIEWED_RECORD {"id":1,"fullName":"Petr Vzorka"}`
    zapsaný **novou** aplikací.
 4. Klikni na **Dashboard** (navigace nové aplikace vede do Liferay). Při flagu **PORTLET** hlavička staré aplikace poslední
    záznam **neukáže** – čte svou PortletSession, kam nová aplikace nezapisuje.
 5. `bash docker/session-flag.sh REDIS` a obnov dashboard → hlavička Liferay ukáže
-   **„Naposledy otvorený záznam: Peter Vzorka“** z nové aplikace. Ladicí řádek nové aplikace ukáže *flag starej appky = REDIS*.
+   **„Naposledy otevřený záznam: Petr Vzorka“** z nové aplikace. Ladicí řádek nové aplikace ukáže *flag staré aplikace = REDIS*.
    Poučení: flag se přepíná na `REDIS` nejpozději s nasazením první zmigrované stránky.
-6. **Zmeniť zákazníka** (v libovolné aplikaci) → SSO mock → *C-1002*: obě aplikace ukážou nového zákazníka
+6. **Změnit zákazníka** (v libovolné aplikaci) → SSO mock → *C-1002*: obě aplikace ukážou nového zákazníka
    (dashboard jiné produkty). Zákazníka vlastní SSO portál.
 7. V nové aplikaci změň stav záznamu → hláška se zobrazí jednou (prošla přes Redis). Odstranění identifikátoru (AJAX)
    jde jen přes POST.
-8. **Odhlásiť** → přihlas se jako *Čitateľ* → v nové aplikaci nevidí změny ani „Nový záznam“, přímý POST dostane 403.
+8. **Odhlásit** → přihlas se jako *Čtenář* → v nové aplikaci nevidí změny ani „Nový záznam“, přímý POST dostane 403.
 9. **Před/po:** otevři http://localhost:8080/web/crm/blacklist (starý portlet) a porovnej URL, chování a kód –
    `docs/MIGRACIA.md`.
 10. `docker compose -f docker/docker-compose.yml stop redis` → nová aplikace běží dál (bez hlášek a posledního

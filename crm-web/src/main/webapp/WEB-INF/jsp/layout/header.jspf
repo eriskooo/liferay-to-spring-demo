@@ -2,7 +2,7 @@
      v rovnakom poradí ako ich vkladá Liferay (classic theme, jadro portálu, portlet CSS, náš theme) a rovnaký obalový DOM
      (html.aui – Bootstrap 2 v Liferay 6.2 platí len pod triedou .aui; portlet-boundary … crm-portlet – na ňu cieli portlet CSS). --%>
 <!DOCTYPE html>
-<html class="aui ltr" dir="ltr" lang="sk">
+<html class="aui ltr" dir="ltr" lang="cs">
 <head>
     <meta charset="UTF-8">
     <title><common:message key="${titleKey}"/> &ndash; <common:message key="app.name"/></title>

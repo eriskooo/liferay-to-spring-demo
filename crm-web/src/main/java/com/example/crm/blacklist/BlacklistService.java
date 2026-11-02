@@ -16,7 +16,7 @@ public interface BlacklistService {
 
     BlacklistRecord create(NewBlacklistRecord data);
 
-    /** Zmena stavu a platnosti. Deaktivácia bez „platné do“ doplní dnešný dátum. */
+    /** Změna stavu a platnosti. Deaktivácia bez „platné do“ doplní dnešný dátum. */
     void change(long id, BlacklistState state, LocalDate validTo);
 
     void addNote(long id, String text, String author);

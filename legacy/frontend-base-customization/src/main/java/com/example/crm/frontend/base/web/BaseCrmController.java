@@ -53,7 +53,7 @@ public abstract class BaseCrmController {
         return customer;
     }
 
-    /** Meno operátora (autor poznámky, žiadosti). */
+    /** Jméno operátora (autor poznámky, žiadosti). */
     protected String operatorName() {
         PortalOperator operator = sessionManager.getOperator();
         return operator == null ? "?" : operator.getDisplayName();

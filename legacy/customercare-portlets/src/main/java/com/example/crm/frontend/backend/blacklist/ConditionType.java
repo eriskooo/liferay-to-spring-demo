@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-/** Podmienka, ktorá sa uplatní pri objednávke osoby z blacklistu. */
+/** Podmínka, ktorá sa uplatní pri objednávke osoby z blacklistu. */
 public enum ConditionType {
     BLOCK_ALL, REQUIRE_DEPOSIT, MANUAL_APPROVAL;
 

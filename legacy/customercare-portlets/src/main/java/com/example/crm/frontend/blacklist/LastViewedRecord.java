@@ -2,7 +2,7 @@ package com.example.crm.frontend.blacklist;
 
 import java.io.Serializable;
 
-/** Naposledy otvorený záznam blacklistu – hlavička ho ukazuje na každej stránke (aj v novej appke po migrácii). */
+/** Naposledy otevřený záznam blacklistu – hlavička ho ukazuje na každej stránke (aj v novej appke po migrácii). */
 public class LastViewedRecord implements Serializable {
 
     private static final long serialVersionUID = 1L;

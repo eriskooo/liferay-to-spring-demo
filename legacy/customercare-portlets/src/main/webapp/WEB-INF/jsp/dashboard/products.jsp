@@ -1,5 +1,5 @@
 <%@ include file="/WEB-INF/jsp/init.jspf" %>
-<h2><common:message key="dashboard.title"/> – <c:out value="${customer.displayName}"/></h2>
+<h2><common:message key="dashboard.title"/> &ndash; <c:out value="${customer.displayName}"/></h2>
 <c:choose>
     <c:when test="${empty products}"><p><common:message key="dashboard.products.empty"/></p></c:when>
     <c:otherwise>

@@ -7,7 +7,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 /**
- * Feature flag „zdroj čítania“ zo slide 12: kľúč v Redise, prepína sa bez reštartu a bez deployu
+ * Feature flag „zdroj čtení“ zo slide 12: kľúč v Redise, prepína sa bez reštartu a bez deployu
  * ({@code redis-cli SET crm:flags:session-read-source REDIS}). Ten istý kľúč bude čítať aj nová appka.
  * Pri akejkoľvek pochybnosti platí PORTLET – stará session ostáva zdrojom pravdy, kým sa Redis neoverí.
  */
@@ -26,7 +26,7 @@ public class ReadSourceFlag {
         this.requests = requests;
     }
 
-    /** Aktuálny zdroj čítania (v rámci requestu sa číta z Redisu raz). */
+    /** Aktuálny zdroj čtení (v rámci requestu sa číta z Redisu raz). */
     public ReadSource current() {
         Object cached = requests.getRequestAttribute(CACHE_ATTRIBUTE);
         if (cached instanceof ReadSource) {

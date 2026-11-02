@@ -2,7 +2,7 @@ package com.example.crm.session;
 
 import java.util.Optional;
 
-/** Zdieľaná session oboch appiek (Redis hash crm:session:{SSO_ID}); hodnoty sú JSON reťazce. */
+/** Sdílená session oboch appiek (Redis hash crm:session:{SSO_ID}); hodnoty sú JSON reťazce. */
 public interface SharedSessionStore {
 
     Optional<String> getJson(String ssoId, String key);

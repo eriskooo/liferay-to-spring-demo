@@ -58,9 +58,9 @@ class PortletUrlTagTest {
         ActionUrlTag tag = new ActionUrlTag();
         tag.setVar("url");
 
-        render(tag, "action", "a", "q", "Ján Novák&co");
+        render(tag, "action", "a", "q", "Jan Novák&co");
 
-        assertThat(page.pageContext.getAttribute("url")).isEqualTo("/app/blacklist/a?q=J%C3%A1n+Nov%C3%A1k%26co");
+        assertThat(page.pageContext.getAttribute("url")).isEqualTo("/app/blacklist/a?q=Jan+Nov%C3%A1k%26co");
     }
 
     @Test

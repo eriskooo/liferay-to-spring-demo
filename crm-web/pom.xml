@@ -37,7 +37,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-restclient</artifactId>
         </dependency>
-        <!-- Zdieľaná session so starou appkou (Redis hash crm:session:{SSO_ID}). -->
+        <!-- Sdílená session so starou appkou (Redis hash crm:session:{SSO_ID}). -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>

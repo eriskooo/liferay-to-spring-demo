@@ -29,13 +29,13 @@ class SsoClientTest {
     @Test
     @DisplayName("Platná SSO session vráti operátora a zákazníka (rovnaký JSON ako sso-mock)")
     void should_returnIdentity_when_portalKnowsSession() {
-        sso.put("s-1", "spravca", "Správca", "C-1001", "Ján Vzorový");
+        sso.put("s-1", "spravca", "Správce", "C-1001", "Jan Vzorový");
 
         SsoIdentity identity = client.fetch("s-1").orElseThrow();
 
         assertThat(identity.ssoSessionId()).isEqualTo("s-1");
-        assertThat(identity.operator()).isEqualTo(new OperatorUser("spravca", "Správca"));
-        assertThat(identity.customer()).isEqualTo(new CustomerContext("C-1001", "Ján Vzorový"));
+        assertThat(identity.operator()).isEqualTo(new OperatorUser("spravca", "Správce"));
+        assertThat(identity.customer()).isEqualTo(new CustomerContext("C-1001", "Jan Vzorový"));
     }
 
     @Test
@@ -51,7 +51,7 @@ class SsoClientTest {
         assertThatThrownBy(() -> client.fetch("s-1")).isInstanceOf(SsoUnavailableException.class);
 
         sso.forceStatus(0);
-        sso.put("s-1", "spravca", "Správca", "C-1001", "Ján Vzorový");
+        sso.put("s-1", "spravca", "Správce", "C-1001", "Jan Vzorový");
         sso.delay(3000);
         assertThatThrownBy(() -> client.fetch("s-1")).isInstanceOf(SsoUnavailableException.class);
     }

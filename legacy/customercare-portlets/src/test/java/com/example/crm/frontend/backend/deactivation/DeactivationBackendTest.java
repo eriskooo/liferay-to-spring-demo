@@ -44,10 +44,10 @@ class DeactivationBackendTest {
         CustomerProduct product = products.find("C-1001", "T-1").get();
 
         DeactivationRequest request = deactivations.submit(product, DeactivationType.CUSTOMER_POSTPRE, NOTICE,
-                LocalDate.of(2026, 10, 9), "Správca");
+                LocalDate.of(2026, 10, 9), "Správce");
 
         assertThat(request.getId()).isEqualTo(1L);
-        assertThat(request.getProductName()).isEqualTo("Tarif Neobmedzený");
+        assertThat(request.getProductName()).isEqualTo("Tarif Neomezený");
         assertThat(request.getCreatedAt()).isEqualTo(LocalDateTime.of(2026, 10, 8, 10, 15));
         assertThat(deactivations.find(1L).get()).isSameAs(request);
     }
@@ -58,6 +58,6 @@ class DeactivationBackendTest {
         CustomerProduct product = products.find("C-1001", "T-1").get();
 
         assertThatThrownBy(() -> deactivations.submit(product, DeactivationType.CUSTOMER_DEACTIVATION, NOTICE,
-                LocalDate.of(2026, 10, 9), "Správca")).isInstanceOf(IllegalArgumentException.class);
+                LocalDate.of(2026, 10, 9), "Správce")).isInstanceOf(IllegalArgumentException.class);
     }
 }

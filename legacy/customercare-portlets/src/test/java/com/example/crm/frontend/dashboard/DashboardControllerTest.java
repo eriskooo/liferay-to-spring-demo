@@ -47,8 +47,8 @@ class DashboardControllerTest {
     void wire() {
         controller.setSessionManager(sessionManager);
         controller.setOperatorAcl(mock(OperatorAcl.class));
-        when(sessionManager.getCustomer()).thenReturn(new PortalCustomer("C-1001", "Ján Vzorový"));
-        when(sessionManager.getOperator()).thenReturn(new PortalOperator("spravca", "Správca"));
+        when(sessionManager.getCustomer()).thenReturn(new PortalCustomer("C-1001", "Jan Vzorový"));
+        when(sessionManager.getOperator()).thenReturn(new PortalOperator("spravca", "Správce"));
     }
 
     @Test
@@ -86,7 +86,7 @@ class DashboardControllerTest {
         DeactivationForm form = controller.form();
 
         assertThat(controller.deactivationForm("T-1", form, model)).isEqualTo("dashboard/deactivation/form");
-        assertThat(((CustomerProduct) model.get("product")).getName()).isEqualTo("Tarif Neobmedzený");
+        assertThat(((CustomerProduct) model.get("product")).getName()).isEqualTo("Tarif Neomezený");
         assertThat(form.getProductId()).isEqualTo("T-1");
         assertThat(model.get("earliestDate")).isEqualTo(LocalDate.of(2026, 11, 7));
     }
@@ -130,7 +130,7 @@ class DashboardControllerTest {
 
         controller.submit(form, bindingResult(form), status, response);
 
-        assertThat(deactivations.find(1).get().getOperator()).isEqualTo("Správca");
+        assertThat(deactivations.find(1).get().getOperator()).isEqualTo("Správce");
         assertThat(status.isComplete()).isTrue();
         verify(sessionManager).pushInfo("dashboard.deactivation.submitted");
         assertThat(response.getRenderParameter("page")).isEqualTo("tariffDeactivationDone");
@@ -153,7 +153,7 @@ class DashboardControllerTest {
     }
 
     @Test
-    @DisplayName("Dátum podania v budúcnosti a chýbajúci typ sú chyby")
+    @DisplayName("Datum podání v budúcnosti a chýbajúci typ sú chyby")
     void should_rejectFutureNoticeAndMissingType_when_submitting() {
         DeactivationForm form = form("T-1", null, "2026-10-09", "2026-12-31");
         BindingResult errors = bindingResult(form);
@@ -168,9 +168,9 @@ class DashboardControllerTest {
     @DisplayName("Potvrdenie ukáže žiadosť; žiadosť iného zákazníka je 404")
     void should_showOwnRequestOnly_when_doneRendered() {
         DeactivationRequest own = deactivations.submit(products.find("C-1001", "T-1").get(),
-                DeactivationType.TRANSFER_TO_CUSTOMER, LocalDate.of(2026, 10, 8), LocalDate.of(2026, 10, 8), "Správca");
+                DeactivationType.TRANSFER_TO_CUSTOMER, LocalDate.of(2026, 10, 8), LocalDate.of(2026, 10, 8), "Správce");
         DeactivationRequest foreign = deactivations.submit(products.find("C-1002", "T-3").get(),
-                DeactivationType.TRANSFER_TO_CUSTOMER, LocalDate.of(2026, 10, 8), LocalDate.of(2026, 10, 8), "Správca");
+                DeactivationType.TRANSFER_TO_CUSTOMER, LocalDate.of(2026, 10, 8), LocalDate.of(2026, 10, 8), "Správce");
         ExtendedModelMap model = new ExtendedModelMap();
 
         assertThat(controller.done(own.getId(), model)).isEqualTo("dashboard/deactivation/done");

@@ -4,6 +4,6 @@ package com.example.crm.common;
 public class NotFoundException extends RuntimeException {
 
     public NotFoundException(String what) {
-        super("Nenájdené: " + what);
+        super("Nenalezeno: " + what);
     }
 }

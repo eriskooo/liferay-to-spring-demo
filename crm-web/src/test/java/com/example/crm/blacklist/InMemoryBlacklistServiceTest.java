@@ -31,7 +31,7 @@ class InMemoryBlacklistServiceTest {
 
     @Test
     void firstNameSearchHandlesDiacritics() {
-        assertThat(ids(service.search(criteria(c -> c.setFirstName("mária"))))).containsExactly(2L);
+        assertThat(ids(service.search(criteria(c -> c.setFirstName("věra"))))).containsExactly(2L);
     }
 
     @Test
@@ -98,10 +98,10 @@ class InMemoryBlacklistServiceTest {
 
     @Test
     void noteUsesClockAndAuthor() {
-        service.addNote(6, "  Overené telefonicky.  ", "Správca");
+        service.addNote(6, "  Overené telefonicky.  ", "Správce");
 
         assertThat(service.findById(6).orElseThrow().getNotes())
-                .containsExactly(new Note("Overené telefonicky.", "Správca", LocalDateTime.of(2026, 10, 8, 10, 15)));
+                .containsExactly(new Note("Overené telefonicky.", "Správce", LocalDateTime.of(2026, 10, 8, 10, 15)));
     }
 
     @Test

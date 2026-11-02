@@ -106,7 +106,7 @@ public class BlacklistCreateController extends BaseCrmController {
         response.setRenderParameter("detailId", String.valueOf(created.getId()));
     }
 
-    /** Zrušenie – späť na vyhľadávanie (legacy „goto“ akcia). */
+    /** Zrušení – späť na vyhľadávanie (legacy „goto“ akcia). */
     @ActionMapping(params = "action=gotoSearchAction")
     public void gotoSearch(SessionStatus status, ActionResponse response) {
         status.setComplete();

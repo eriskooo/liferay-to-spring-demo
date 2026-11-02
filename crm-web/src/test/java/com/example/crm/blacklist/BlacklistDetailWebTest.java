@@ -36,7 +36,7 @@ class BlacklistDetailWebTest {
         mvc.perform(get("/blacklist/detail").param("detailId", "2").session(session)).andExpect(status().isOk());
 
         assertThat(com.example.crm.testsupport.TestInfrastructure.STORE.data().get(ssoId))
-                .containsEntry("APP_LAST_VIEWED_RECORD", "{\"id\":2,\"fullName\":\"Mária Príkladová\"}");
+                .containsEntry("APP_LAST_VIEWED_RECORD", "{\"id\":2,\"fullName\":\"Věra Příkladová\"}");
     }
 
     @Test
@@ -105,7 +105,7 @@ class BlacklistDetailWebTest {
         assertThat(service.findById(6).orElseThrow().getNotes())
                 .anySatisfy(note -> {
                     assertThat(note.text()).isEqualTo("Overené telefonicky.");
-                    assertThat(note.author()).isEqualTo("Správca");
+                    assertThat(note.author()).isEqualTo("Správce");
                 });
     }
 

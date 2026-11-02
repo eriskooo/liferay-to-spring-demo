@@ -46,20 +46,20 @@ class HeaderControllerTest {
     }
 
     @Test
-    @DisplayName("Prihlásený: operátor, zákazník, posledný záznam, hlášky a ladiace údaje o session")
+    @DisplayName("Přihlášen: operátor, zákazník, posledný záznam, hlášky a ladiace údaje o session")
     void should_showContextAndSessionDebug_when_loggedIn() {
-        when(sessionManager.getOperator()).thenReturn(new PortalOperator("spravca", "Správca"));
-        when(sessionManager.getCustomer()).thenReturn(new PortalCustomer("C-1001", "Ján Vzorový"));
-        when(sessionManager.getGlobalAttribute(LastViewedRecord.KEY)).thenReturn(new LastViewedRecord(1, "Peter Vzorka"));
+        when(sessionManager.getOperator()).thenReturn(new PortalOperator("spravca", "Správce"));
+        when(sessionManager.getCustomer()).thenReturn(new PortalCustomer("C-1001", "Jan Vzorový"));
+        when(sessionManager.getGlobalAttribute(LastViewedRecord.KEY)).thenReturn(new LastViewedRecord(1, "Petr Vzorka"));
         when(sessionManager.popMessages()).thenReturn(Collections.singletonList(new UiMessage(UiMessage.Level.INFO, "k")));
         when(requests.getSsoSessionId()).thenReturn("s-1");
         when(flag.current()).thenReturn(ReadSource.REDIS);
 
         controller.view(model);
 
-        assertThat(((PortalOperator) model.get("operator")).getDisplayName()).isEqualTo("Správca");
+        assertThat(((PortalOperator) model.get("operator")).getDisplayName()).isEqualTo("Správce");
         assertThat(((PortalCustomer) model.get("customer")).getCustomerId()).isEqualTo("C-1001");
-        assertThat(((LastViewedRecord) model.get("lastViewed")).getFullName()).isEqualTo("Peter Vzorka");
+        assertThat(((LastViewedRecord) model.get("lastViewed")).getFullName()).isEqualTo("Petr Vzorka");
         assertThat((java.util.List<?>) model.get("messages")).hasSize(1);
         assertThat(model.get("changeCustomerUrl")).isEqualTo("/sso/login?returnUrl=%2Fweb%2Fcrm%2Fblacklist");
         assertThat(model.get("readSource")).isEqualTo(ReadSource.REDIS);

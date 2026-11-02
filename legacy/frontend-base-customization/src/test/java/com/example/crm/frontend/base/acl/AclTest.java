@@ -17,7 +17,7 @@ class AclTest {
     private final OperatorAcl acl = new OperatorAcl(sessionManager, aclService);
 
     @Test
-    @DisplayName("Čitateľ smie len čítať blacklist, správca všetko, neznámy nič")
+    @DisplayName("Čtenář smie len čítať blacklist, správca všetko, neznámy nič")
     void should_grantPrivilegesByOperator_when_asked() {
         assertThat(aclService.hasPrivilege("citatel", Privilege.BLACKLIST_VIEW)).isTrue();
         assertThat(aclService.hasPrivilege("citatel", Privilege.BLACKLIST_MODIFY)).isFalse();
@@ -38,7 +38,7 @@ class AclTest {
     @Test
     @DisplayName("checkPrivilege vyhodí výnimku s menom chýbajúceho privilégia")
     void should_throwWithPrivilege_when_checkFails() {
-        when(sessionManager.getOperator()).thenReturn(new PortalOperator("citatel", "Čitateľ"));
+        when(sessionManager.getOperator()).thenReturn(new PortalOperator("citatel", "Čtenář"));
 
         assertThatThrownBy(() -> acl.checkPrivilege(Privilege.BLACKLIST_MODIFY))
                 .isInstanceOf(AclDeniedException.class)
@@ -49,7 +49,7 @@ class AclTest {
     @Test
     @DisplayName("Privilégium podľa mena (z JSP tagu); preklep v mene je chyba, nie tiché zamietnutie")
     void should_resolvePrivilegeByName_when_calledFromTag() {
-        when(sessionManager.getOperator()).thenReturn(new PortalOperator("spravca", "Správca"));
+        when(sessionManager.getOperator()).thenReturn(new PortalOperator("spravca", "Správce"));
 
         assertThat(acl.hasPrivilege("BLACKLIST_MODIFY")).isTrue();
         assertThatThrownBy(() -> acl.hasPrivilege("BLACKLIST_MODIFI"))

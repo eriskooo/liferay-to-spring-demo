@@ -10,7 +10,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 /**
- * Zdieľaná session v Redise: hash {@code crm:session:{SSO_ID}}, hodnoty v JSON. Kľúčom je ID session SSO portálu –
+ * Sdílená session v Redise: hash {@code crm:session:{SSO_ID}}, hodnoty v JSON. Kľúčom je ID session SSO portálu –
  * cookie {@code SSO_ID} majú obe appky, takže netreba vlastnú cookie (a portlet ju ani nevie nastaviť v render fáze).
  */
 public class RedisSessionStore implements SessionStore {

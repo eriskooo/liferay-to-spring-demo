@@ -126,39 +126,39 @@ public class InMemoryBlacklistService implements BlacklistService {
     }
 
     private void seed() {
-        BlacklistRecord r1 = add("Peter", "Vzorka", LocalDate.of(1980, 5, 12), ACTIVE, FRAUD, BLOCK_ALL,
+        BlacklistRecord r1 = add("Petr", "Vzorka", LocalDate.of(1980, 5, 12), ACTIVE, FRAUD, BLOCK_ALL,
                 LocalDate.of(2024, 1, 10), null);
         identifier(r1, BIRTH_CODE, "800512/1234");
         identifier(r1, ID_CARD, "AB123456");
-        r1.addNote(new Note("Opakované pokusy o objednávku na cudzie doklady.", "Systém",
+        r1.addNote(new Note("Opakované pokusy o objednávku na cizí doklady.", "Systém",
                 LocalDateTime.of(2024, 1, 10, 9, 0)));
 
-        BlacklistRecord r2 = add("Mária", "Príkladová", LocalDate.of(1975, 11, 3), ACTIVE, DEBT, REQUIRE_DEPOSIT,
+        BlacklistRecord r2 = add("Věra", "Příkladová", LocalDate.of(1975, 11, 3), ACTIVE, DEBT, REQUIRE_DEPOSIT,
                 LocalDate.of(2023, 6, 1), LocalDate.of(2027, 6, 1));
         identifier(r2, BIRTH_CODE, "755103/2345");
 
-        BlacklistRecord r3 = add("Ján", "Testovací", LocalDate.of(1990, 2, 20), INACTIVE, DEBT, MANUAL_APPROVAL,
+        BlacklistRecord r3 = add("Jan", "Testovací", LocalDate.of(1990, 2, 20), INACTIVE, DEBT, MANUAL_APPROVAL,
                 LocalDate.of(2022, 3, 15), LocalDate.of(2024, 3, 15));
         identifier(r3, ID_CARD, "CD987654");
 
-        BlacklistRecord r4 = add("Eva", "Ukážková", LocalDate.of(1988, 7, 30), ACTIVE, ABUSE, MANUAL_APPROVAL,
+        BlacklistRecord r4 = add("Eva", "Ukázková", LocalDate.of(1988, 7, 30), ACTIVE, ABUSE, MANUAL_APPROVAL,
                 LocalDate.of(2025, 2, 1), null);
         identifier(r4, PASSPORT, "P1234567");
 
-        BlacklistRecord r5 = add("Tomáš", "Fiktívny", LocalDate.of(1969, 12, 24), ACTIVE, FRAUD, BLOCK_ALL,
+        BlacklistRecord r5 = add("Tomáš", "Fiktivní", LocalDate.of(1969, 12, 24), ACTIVE, FRAUD, BLOCK_ALL,
                 LocalDate.of(2021, 9, 9), null);
         identifier(r5, BIRTH_CODE, "691224/3456");
         identifier(r5, PASSPORT, "X7654321");
 
-        BlacklistRecord r6 = add("Lucia", "Demová", LocalDate.of(1995, 4, 18), INACTIVE, ABUSE, BLOCK_ALL,
+        BlacklistRecord r6 = add("Lucie", "Demová", LocalDate.of(1995, 4, 18), INACTIVE, ABUSE, BLOCK_ALL,
                 LocalDate.of(2020, 1, 1), LocalDate.of(2021, 1, 1));
         identifier(r6, ID_CARD, "EF555444");
 
-        BlacklistRecord r7 = add("Karol", "Modelový", LocalDate.of(1983, 8, 8), ACTIVE, DEBT, REQUIRE_DEPOSIT,
+        BlacklistRecord r7 = add("Karel", "Modelový", LocalDate.of(1983, 8, 8), ACTIVE, DEBT, REQUIRE_DEPOSIT,
                 LocalDate.of(2025, 10, 1), null);
         identifier(r7, COMPANY_REG_NO, "12345678");
 
-        BlacklistRecord r8 = add("Peter", "Vzorkový", LocalDate.of(1979, 1, 1), ACTIVE, DEBT, MANUAL_APPROVAL,
+        BlacklistRecord r8 = add("Petr", "Vzorkový", LocalDate.of(1979, 1, 1), ACTIVE, DEBT, MANUAL_APPROVAL,
                 LocalDate.of(2024, 5, 5), null);
         identifier(r8, BIRTH_CODE, "790101/4567");
     }

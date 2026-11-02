@@ -36,7 +36,7 @@ class BlacklistAuditTest {
 
     @BeforeEach
     void operator() {
-        when(session.getOperator()).thenReturn(Optional.of(new OperatorUser("spravca", "Správca")));
+        when(session.getOperator()).thenReturn(Optional.of(new OperatorUser("spravca", "Správce")));
         when(session.operatorLogin()).thenCallRealMethod();
     }
 

@@ -22,7 +22,7 @@ class SsoIdentityResolverTest {
     @DisplayName("Identitu zo SSO volá raz za request, ďalej ju berie z atribútu requestu")
     void should_callSsoOnce_when_resolvedRepeatedly() {
         MockHttpServletRequest request = withCookie("s-1");
-        SsoIdentity identity = new SsoIdentity("s-1", new OperatorUser("spravca", "Správca"), null);
+        SsoIdentity identity = new SsoIdentity("s-1", new OperatorUser("spravca", "Správce"), null);
         when(client.fetch("s-1")).thenReturn(Optional.of(identity));
 
         assertThat(resolver.resolve(request)).contains(identity);

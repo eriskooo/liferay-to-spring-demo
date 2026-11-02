@@ -66,6 +66,6 @@ Testy a page objects zůstávají.
 
 | Test | Legacy | Nová aplikace před opravou | Oprava |
 |---|---|---|---|
-| 2 změna stavu | „Stav záznamu bol zmenený.“ | „Záznam bol zmenený.“ | text v `crm-web` `messages.properties` |
-| 3 prázdná poznámka | „Poznámka nesmie byť prázdna.“ | `validation.required` („povinné pole“) | `NoteForm` → klíč `blacklist.detail.noteEmpty` |
+| 2 změna stavu | „Stav záznamu byl změněn.“ | „Záznam bol zmenený.“ | text v `crm-web` `messages.properties` |
+| 3 prázdná poznámka | „Poznámka nesmí být prázdná.“ | `validation.required` („povinné pole“) | `NoteForm` → klíč `blacklist.detail.noteEmpty` |
 | 4b poslední identifikátor | `mo?né odstráni?` (chyba legacy) | správně UTF-8 | oprava v legacy (`DispatcherPortletCustom`) |

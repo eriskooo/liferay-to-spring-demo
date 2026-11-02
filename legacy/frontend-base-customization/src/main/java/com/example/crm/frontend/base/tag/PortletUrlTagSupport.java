@@ -85,6 +85,6 @@ public abstract class PortletUrlTagSupport extends TagSupport {
     /** Vytvorí URL danej fázy portletu. */
     protected abstract BaseURL createUrl(MimeResponse response);
 
-    /** Meno tagu do chybových hlášok. */
+    /** Jméno tagu do chybových hlášok. */
     protected abstract String tagName();
 }

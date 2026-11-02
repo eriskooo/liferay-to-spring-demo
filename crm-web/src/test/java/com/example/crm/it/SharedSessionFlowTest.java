@@ -37,8 +37,8 @@ class SharedSessionFlowTest {
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
-        SSO.put("it-admin", "spravca", "Správca", "C-1001", "Ján Vzorový");
-        SSO.put("it-reader", "citatel", "Čitateľ", "C-1001", "Ján Vzorový");
+        SSO.put("it-admin", "spravca", "Správce", "C-1001", "Jan Vzorový");
+        SSO.put("it-reader", "citatel", "Čtenář", "C-1001", "Jan Vzorový");
     }
 
     @DynamicPropertySource
@@ -77,9 +77,9 @@ class SharedSessionFlowTest {
         HttpResponse<String> detail = client.get("/crm/blacklist/detail?detailId=1");
 
         assertThat(detail.statusCode()).isEqualTo(200);
-        assertThat(detail.body()).contains("Peter Vzorka").contains("Správca").contains("SSO_ID = it-admin");
+        assertThat(detail.body()).contains("Petr Vzorka").contains("Správce").contains("SSO_ID = it-admin");
         assertThat(redis.opsForHash().get("crm:session:it-admin", "APP_LAST_VIEWED_RECORD"))
-                .isEqualTo("{\"id\":1,\"fullName\":\"Peter Vzorka\"}");
+                .isEqualTo("{\"id\":1,\"fullName\":\"Petr Vzorka\"}");
         assertThat(redis.getExpire("crm:session:it-admin")).isPositive();
         WebClient.assertNoMissingMessages(detail.body());
     }
@@ -89,11 +89,11 @@ class SharedSessionFlowTest {
     void should_searchAndShareCriteria_when_diacriticsPosted() throws Exception {
         WebClient client = new WebClient(port).addCookie("SSO_ID", "it-admin");
 
-        HttpResponse<String> result = client.post("/crm/blacklist/searchAction", Map.of("firstName", "Mária"));
+        HttpResponse<String> result = client.post("/crm/blacklist/searchAction", Map.of("firstName", "Věra"));
 
-        assertThat(result.body()).contains("Mária Príkladová");
+        assertThat(result.body()).contains("Věra Příkladová");
         assertThat((String) redis.opsForHash().get("crm:session:it-admin", "APP_BLACKLIST_LAST_CRITERIA"))
-                .contains("\"firstName\":\"Mária\"");
+                .contains("\"firstName\":\"Věra\"");
     }
 
     @Test
@@ -116,9 +116,9 @@ class SharedSessionFlowTest {
                 "[{\"level\":\"INFO\",\"key\":\"dashboard.deactivation.submitted\"}]");
         WebClient client = new WebClient(port).addCookie("SSO_ID", "it-admin");
 
-        assertThat(client.get("/crm/blacklist/search").body()).contains("Žiadosť o zrušenie bola prijatá.");
+        assertThat(client.get("/crm/blacklist/search").body()).contains("Žádost o zrušení byla přijata.");
         assertThat(redis.opsForHash().hasKey("crm:session:it-admin", "APP_MESSAGES")).isFalse();
-        assertThat(client.get("/crm/blacklist/search").body()).doesNotContain("Žiadosť o zrušenie bola prijatá.");
+        assertThat(client.get("/crm/blacklist/search").body()).doesNotContain("Žádost o zrušení byla přijata.");
     }
 
     @Test
@@ -127,7 +127,7 @@ class SharedSessionFlowTest {
         WebClient admin = new WebClient(port).addCookie("SSO_ID", "it-admin");
         HttpResponse<String> changed = admin.post("/crm/blacklist/changeAction?detailId=7",
                 Map.of("state", "INACTIVE", "validTo", ""));
-        assertThat(changed.body()).contains("Stav záznamu bol zmenený.");
+        assertThat(changed.body()).contains("Stav záznamu byl změněn.");
 
         WebClient reader = new WebClient(port).addCookie("SSO_ID", "it-reader");
         assertThat(reader.post("/crm/blacklist/changeAction?detailId=7", Map.of("state", "ACTIVE", "validTo", ""))

@@ -52,7 +52,7 @@ public class LoginController {
     public ResponseEntity<Void> login(@RequestParam String operator, @RequestParam String customer,
                                       @RequestParam(defaultValue = DEFAULT_RETURN_URL) String returnUrl) {
         Operator op = directory.findOperator(operator)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "neznámy operátor"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "neznámý operátor"));
         Customer cu = requireCustomer(customer);
         String id = sessions.create(op, cu);
         return redirect(safeReturnUrl(returnUrl), cookie(id, Duration.ofHours(8)));
@@ -88,7 +88,7 @@ public class LoginController {
 
     private Customer requireCustomer(String customerId) {
         return directory.findCustomer(customerId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "neznámy zákazník"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "neznámý zákazník"));
     }
 
     private static ResponseCookie cookie(String value, Duration maxAge) {

@@ -21,20 +21,20 @@ public class LoginPage {
         String safeReturn = htmlEscape(returnUrl);
         String state = current.map(s -> """
                 <section>
-                  <p>Prihlásený: %s · zákazník: %s</p>
+                  <p>Přihlášen: %s · zákazník: %s</p>
                   <form method="post" action="/sso/customer">
                     <input type="hidden" name="returnUrl" value="%s">
                     <select name="customer">%s</select>
-                    <button type="submit">Zmeniť zákazníka</button>
+                    <button type="submit">Změnit zákazníka</button>
                   </form>
-                  <form method="post" action="/sso/logout"><button type="submit">Odhlásiť</button></form>
-                  <p><a href="%s">Späť do CRM</a></p>
+                  <form method="post" action="/sso/logout"><button type="submit">Odhlásit</button></form>
+                  <p><a href="%s">Zpět do CRM</a></p>
                 </section>
                 """.formatted(htmlEscape(s.operator().displayName()), htmlEscape(s.customer().displayName()),
                 safeReturn, customerOptions(), safeReturn)).orElse("");
         return """
                 <!DOCTYPE html>
-                <html lang="sk"><head><meta charset="UTF-8"><title>SSO portál (mock)</title></head>
+                <html lang="cs"><head><meta charset="UTF-8"><title>SSO portál (mock)</title></head>
                 <body>
                 <h1>SSO portál (mock)</h1>
                 %s
@@ -42,7 +42,7 @@ public class LoginPage {
                   <input type="hidden" name="returnUrl" value="%s">
                   <label>Operátor <select name="operator">%s</select></label>
                   <label>Zákazník <select name="customer">%s</select></label>
-                  <button type="submit">Prihlásiť</button>
+                  <button type="submit">Přihlásit</button>
                 </form>
                 </body></html>
                 """.formatted(state, safeReturn, operatorOptions(), customerOptions());

@@ -50,7 +50,7 @@ class BlacklistDetailControllerTest {
         controller.setSessionManager(sessionManager);
         controller.setOperatorAcl(acl);
         controller.setAuditLog(new AuditLog(auditLines::add));
-        when(sessionManager.getOperator()).thenReturn(new PortalOperator("spravca", "Správca"));
+        when(sessionManager.getOperator()).thenReturn(new PortalOperator("spravca", "Správce"));
     }
 
     @Test
@@ -59,9 +59,9 @@ class BlacklistDetailControllerTest {
         ExtendedModelMap model = new ExtendedModelMap();
 
         assertThat(controller.detail(1, model)).isEqualTo("blacklist/detail");
-        assertThat(((BlacklistRecord) model.get("record")).getFullName()).isEqualTo("Peter Vzorka");
+        assertThat(((BlacklistRecord) model.get("record")).getFullName()).isEqualTo("Petr Vzorka");
         verify(sessionManager).setGlobalAttribute(eq(LastViewedRecord.KEY),
-                argThat(v -> ((LastViewedRecord) v).getId() == 1 && "Peter Vzorka".equals(((LastViewedRecord) v).getFullName())));
+                argThat(v -> ((LastViewedRecord) v).getId() == 1 && "Petr Vzorka".equals(((LastViewedRecord) v).getFullName())));
     }
 
     @Test
@@ -100,7 +100,7 @@ class BlacklistDetailControllerTest {
 
         controller.addNote(6, "Overené telefonicky.", response);
 
-        assertThat(service.findById(6).get().getNotes()).extracting(n -> n.getAuthor()).containsExactly("Správca");
+        assertThat(service.findById(6).get().getNotes()).extracting(n -> n.getAuthor()).containsExactly("Správce");
         verify(sessionManager).pushInfo("blacklist.detail.noteAdded");
     }
 

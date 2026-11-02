@@ -21,7 +21,7 @@ class LayoutRenderingTest {
         HttpResponse<String> response = new WebClient(port).get("/crm/neexistuje", "Accept", "text/html");
 
         assertThat(response.statusCode()).isEqualTo(404);
-        assertThat(response.body()).contains("Nenájdené").contains("/web/crm/dashboard").contains("/crm/css/crm.css");
+        assertThat(response.body()).contains("Nenalezeno").contains("/web/crm/dashboard").contains("/crm/css/crm.css");
         WebClient.assertNoMissingMessages(response.body());
     }
 }

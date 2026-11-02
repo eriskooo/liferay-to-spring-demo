@@ -38,17 +38,17 @@ class BaseCrmControllerTest {
     @Test
     @DisplayName("Zákazník a meno operátora zo SSO")
     void should_returnCustomerAndOperatorName_when_loggedIn() {
-        when(sessionManager.getCustomer()).thenReturn(new PortalCustomer("C-1001", "Ján Vzorový"));
-        when(sessionManager.getOperator()).thenReturn(new PortalOperator("spravca", "Správca"));
+        when(sessionManager.getCustomer()).thenReturn(new PortalCustomer("C-1001", "Jan Vzorový"));
+        when(sessionManager.getOperator()).thenReturn(new PortalOperator("spravca", "Správce"));
 
         assertThat(controller().requireCustomer().getCustomerId()).isEqualTo("C-1001");
-        assertThat(controller().operatorName()).isEqualTo("Správca");
+        assertThat(controller().operatorName()).isEqualTo("Správce");
     }
 
     @Test
     @DisplayName("Login operátora pre audit, „?“ bez identity")
     void should_returnLogin_when_operatorPresent() {
-        when(sessionManager.getOperator()).thenReturn(new PortalOperator("spravca", "Správca"));
+        when(sessionManager.getOperator()).thenReturn(new PortalOperator("spravca", "Správce"));
         assertThat(controller().operatorLogin()).isEqualTo("spravca");
 
         when(sessionManager.getOperator()).thenReturn(null);

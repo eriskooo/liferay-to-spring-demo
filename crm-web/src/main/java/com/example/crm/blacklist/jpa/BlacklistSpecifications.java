@@ -18,7 +18,7 @@ public final class BlacklistSpecifications {
     private BlacklistSpecifications() {
     }
 
-    /** Meno/priezvisko ako podreťazec bez ohľadu na veľkosť písmen, identifikátor presne, stav presne. */
+    /** Jméno/priezvisko ako podreťazec bez ohľadu na veľkosť písmen, identifikátor presne, stav presne. */
     public static Specification<BlacklistRecordEntity> matching(BlacklistSearchCriteria criteria) {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();

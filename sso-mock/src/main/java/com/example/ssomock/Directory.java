@@ -15,12 +15,12 @@ public class Directory {
     }
 
     private static final List<Operator> OPERATORS = List.of(
-            new Operator("citatel", "Čitateľ"),
-            new Operator("spravca", "Správca"));
+            new Operator("citatel", "Čtenář"),
+            new Operator("spravca", "Správce"));
 
     private static final List<Customer> CUSTOMERS = List.of(
-            new Customer("C-1001", "Ján Vzorový"),
-            new Customer("C-1002", "Firma Ukážka s.r.o."));
+            new Customer("C-1001", "Jan Vzorový"),
+            new Customer("C-1002", "Firma Ukázka s.r.o."));
 
     /** Všetci demo operátori. */
     public List<Operator> operators() {

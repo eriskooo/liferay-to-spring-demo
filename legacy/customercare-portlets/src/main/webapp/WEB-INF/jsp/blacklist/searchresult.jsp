@@ -22,7 +22,7 @@
             <td><a id="detail-${r.id}" href="${detailUrl}"><c:out value="${r.fullName}"/></a></td>
             <td>${r.birthDate}</td>
             <td><common:message key="blacklist.state.${r.state}"/></td>
-            <td>${r.validFrom} –
+            <td>${r.validFrom} &ndash;
                 <c:choose>
                     <c:when test="${empty r.validTo}"><common:message key="blacklist.detail.unlimited"/></c:when>
                     <c:otherwise>${r.validTo}</c:otherwise>

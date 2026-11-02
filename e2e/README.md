@@ -44,7 +44,7 @@ současně se smoke skripty.
 | # | Typ chování portletu | Test | UI | DB | Audit |
 |---|---|---|---|---|---|
 | 1 | čtení (render) | vyhledání podle jména s diakritikou | 1 výsledek | beze změny | žádný |
-| 2 | zápis (action + PRG) | změna stavu bez „platné do“ | hláška, stav Neaktívny | `INACTIVE`, `valid_to` = dnes | `blacklist.change` |
+| 2 | zápis (action + PRG) | změna stavu bez „platné do“ | hláška, stav Neaktivní | `INACTIVE`, `valid_to` = dnes | `blacklist.change` |
 | 3 | validace bez vedlejšího efektu | prázdná poznámka | chybová hláška | beze změny | žádný |
 | 4a | AJAX (resource) | odstranění identifikátoru | fragment bez identifikátoru, stránka se nepřenačte | řádek smazán | `blacklist.identifier.remove` |
 | 4b | AJAX – byznys pravidlo | poslední identifikátor | hláška ve fragmentu | beze změny | žádný |

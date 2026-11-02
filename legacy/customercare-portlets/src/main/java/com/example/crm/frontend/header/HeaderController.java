@@ -14,7 +14,7 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 /**
  * Portlet hlavičky, ktorý theme vkladá na každú stránku ({@code $theme.runtime}). Ekvivalent legacy portletov
  * „hlavička / kontext zákazníka / info hlášky“ – portál skladá stránku z portletov; po migrácii z toho bude
- * fragment layout šablóny. Ladiaci riadok (zdroj čítania, SSO_ID) je len pre demo zdieľanej session.
+ * fragment layout šablóny. Ladiaci riadok (zdroj čtení, SSO_ID) je len pre demo zdieľanej session.
  */
 @Controller
 @RequestMapping("VIEW")

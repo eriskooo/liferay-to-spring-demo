@@ -87,10 +87,10 @@ class WebInfrastructureTest {
         MockHttpSession session = TestSessions.admin();
         String ssoId = ((com.example.crm.session.SsoIdentity) session.getAttribute(TestInfrastructure.TEST_IDENTITY))
                 .ssoSessionId();
-        TestInfrastructure.STORE.putJson(ssoId, "APP_LAST_VIEWED_RECORD", "{\"id\":1,\"fullName\":\"Peter Vzorka\"}");
+        TestInfrastructure.STORE.putJson(ssoId, "APP_LAST_VIEWED_RECORD", "{\"id\":1,\"fullName\":\"Petr Vzorka\"}");
 
         mvc.perform(get("/probe/page").session(session))
-                .andExpect(model().attribute("layoutLastViewed", new LastViewedRecord(1, "Peter Vzorka")))
+                .andExpect(model().attribute("layoutLastViewed", new LastViewedRecord(1, "Petr Vzorka")))
                 .andExpect(model().attribute("layoutSsoId", ssoId))
                 .andExpect(model().attribute("layoutLegacyFlag", "PORTLET"));
     }

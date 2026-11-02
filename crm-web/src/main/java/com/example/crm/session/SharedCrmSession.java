@@ -12,7 +12,7 @@ import tools.jackson.databind.JavaType;
 
 /**
  * Fasáda pre jeden request. Nová appka nemá „starú“ session, zdieľané kľúče preto číta vždy z Redisu
- * (flag starej appky ju netýka). Výpadok Redisu request nezhodí – zaloguje sa a fasáda sa správa ako prázdna.
+ * (flag staré aplikace ju netýka). Výpadok Redisu request nezhodí – zaloguje sa a fasáda sa správa ako prázdna.
  */
 final class SharedCrmSession implements CrmSession {
 

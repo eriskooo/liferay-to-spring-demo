@@ -12,8 +12,8 @@ import tools.jackson.databind.json.JsonMapper;
 
 class SharedCrmSessionTest {
 
-    private static final SsoIdentity ADMIN = new SsoIdentity("s-1", new OperatorUser("spravca", "Správca"),
-            new CustomerContext("C-1001", "Ján Vzorový"));
+    private static final SsoIdentity ADMIN = new SsoIdentity("s-1", new OperatorUser("spravca", "Správce"),
+            new CustomerContext("C-1001", "Jan Vzorový"));
 
     private final InMemorySharedSessionStore store = new InMemorySharedSessionStore();
     private final CrmSessions sessions = new CrmSessions(new FixedIdentity(Optional.of(ADMIN)), store,
@@ -44,10 +44,10 @@ class SharedCrmSessionTest {
     @DisplayName("Zdieľaný kľúč sa zapíše ako JSON v tvare, ktorý číta stará appka")
     void should_writeLegacyJson_when_sharedKeyStored() {
         sessions.of(new MockHttpServletRequest())
-                .setGlobalAttribute(LastViewedRecord.KEY, new LastViewedRecord(1, "Peter Vzorka"));
+                .setGlobalAttribute(LastViewedRecord.KEY, new LastViewedRecord(1, "Petr Vzorka"));
 
         assertThat(store.data().get("s-1"))
-                .containsEntry("APP_LAST_VIEWED_RECORD", "{\"id\":1,\"fullName\":\"Peter Vzorka\"}");
+                .containsEntry("APP_LAST_VIEWED_RECORD", "{\"id\":1,\"fullName\":\"Petr Vzorka\"}");
     }
 
     @Test
@@ -82,7 +82,7 @@ class SharedCrmSessionTest {
         CrmSession session = sessions.of(new MockHttpServletRequest());
 
         session.pushInfo("blacklist.detail.changed");
-        session.setGlobalAttribute(LastViewedRecord.KEY, new LastViewedRecord(1, "Peter Vzorka"));
+        session.setGlobalAttribute(LastViewedRecord.KEY, new LastViewedRecord(1, "Petr Vzorka"));
 
         assertThat(session.popMessages()).isEmpty();
         assertThat(session.getGlobalAttribute(LastViewedRecord.KEY, LastViewedRecord.class)).isEmpty();

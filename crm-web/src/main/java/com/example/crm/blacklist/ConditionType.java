@@ -2,7 +2,7 @@ package com.example.crm.blacklist;
 
 import java.util.List;
 
-/** Podmienka, ktorá sa uplatní pri objednávke osoby z blacklistu. */
+/** Podmínka, ktorá sa uplatní pri objednávke osoby z blacklistu. */
 public enum ConditionType {
     BLOCK_ALL, REQUIRE_DEPOSIT, MANUAL_APPROVAL;
 

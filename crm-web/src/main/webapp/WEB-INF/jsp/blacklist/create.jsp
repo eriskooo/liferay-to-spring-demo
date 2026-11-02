@@ -2,7 +2,7 @@
 <c:set var="titleKey" value="blacklist.create.title"/>
 <%@ include file="/WEB-INF/jsp/layout/header.jspf" %>
 <common:aclPageFilterTag privilegeType="BLACKLIST_MODIFY" wireframe="blacklist-create"/>
-<%-- Telo stránky je 1:1 legacy create.jsp. Rozdiely: „Zrušiť“ je navigácia (GET, legacy action gotoSearchAction),
+<%-- Telo stránky je 1:1 legacy create.jsp. Rozdiely: „Zrušit“ je navigácia (GET, legacy action gotoSearchAction),
      AJAX obnovu podmienok robí crm.js cez data-ajax-* (legacy onchange="Crm.refreshConditionTypes(this)")
      a krížové pravidlá formulára (@AssertTrue) majú vlastné form:errors. --%>
 <portal:actionURL var="createUrl" escapeXml="false">

@@ -23,7 +23,7 @@ class CommonTagsTest {
     void should_writeUtf8Text_when_keyExists() throws JspException {
         message("test.search", null, false);
 
-        assertThat(TagTestSupport.content(pageContext)).isEqualTo("Hľadať");
+        assertThat(TagTestSupport.content(pageContext)).isEqualTo("Hledat");
     }
 
     @Test
@@ -41,7 +41,7 @@ class CommonTagsTest {
         arg.doEndTag();
         tag.doEndTag();
 
-        assertThat(TagTestSupport.content(pageContext)).isEqualTo("Počet záznamov: &lt;b&gt;3&lt;/b&gt;");
+        assertThat(TagTestSupport.content(pageContext)).isEqualTo("Počet záznamů: &lt;b&gt;3&lt;/b&gt;");
     }
 
     @Test
@@ -57,7 +57,7 @@ class CommonTagsTest {
     void should_storeIntoVarAndAppendKey_when_requested() throws JspException {
         message("test.search", "label", true);
 
-        assertThat(pageContext.getAttribute("label")).isEqualTo("Hľadať [test.search]");
+        assertThat(pageContext.getAttribute("label")).isEqualTo("Hledat [test.search]");
         assertThat(TagTestSupport.content(pageContext)).isEmpty();
     }
 
@@ -99,7 +99,7 @@ class CommonTagsTest {
         tag.doStartTag();
 
         assertThat(tag.doEndTag()).isEqualTo(Tag.SKIP_PAGE);
-        assertThat(TagTestSupport.content(pageContext)).contains("Nemáte oprávnenie DEACTIVATION.");
+        assertThat(TagTestSupport.content(pageContext)).contains("Nemáte oprávnění DEACTIVATION.");
     }
 
     @Test

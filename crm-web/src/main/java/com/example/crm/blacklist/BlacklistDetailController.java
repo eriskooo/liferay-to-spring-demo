@@ -39,7 +39,7 @@ public class BlacklistDetailController {
     public String detail(@RequestParam long detailId, Model model, CrmSession session) {
         String view = renderDetail(detailId, model);
         BlacklistRecord record = (BlacklistRecord) model.getAttribute("record");
-        // Zdieľaná session: hlavička starej appky (dashboard v Liferay) ukáže, s kým operátor naposledy pracoval.
+        // Sdílená session: hlavička starej appky (dashboard v Liferay) ukáže, s kým operátor naposledy pracoval.
         session.setGlobalAttribute(LastViewedRecord.KEY, new LastViewedRecord(record.getId(), record.getFullName()));
         return view;
     }

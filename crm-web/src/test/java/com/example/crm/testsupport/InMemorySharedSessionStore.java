@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-/** Zdieľaná session v pamäti pre testy – rovnaký kontrakt ako Redis hash crm:session:{SSO_ID}. */
+/** Sdílená session v pamäti pre testy – rovnaký kontrakt ako Redis hash crm:session:{SSO_ID}. */
 public class InMemorySharedSessionStore implements SharedSessionStore {
 
     private final Map<String, Map<String, String>> data = new ConcurrentHashMap<>();

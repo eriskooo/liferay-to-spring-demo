@@ -59,7 +59,7 @@ class JdbcBlacklistServiceTest {
     }
 
     @Test
-    @DisplayName("Priezvisko sa hľadá ako podreťazec bez ohľadu na veľkosť písmen")
+    @DisplayName("Příjmení sa hľadá ako podreťazec bez ohľadu na veľkosť písmen")
     void should_matchLastNameContainsIgnoreCase_when_searching() {
         assertThat(ids(service.search(criteria(c -> c.setLastName("vzork"))))).containsExactly(1L, 8L);
     }
@@ -67,13 +67,13 @@ class JdbcBlacklistServiceTest {
     @Test
     @DisplayName("Hľadanie funguje s diakritikou")
     void should_matchDiacritics_when_searchingFirstName() {
-        assertThat(ids(service.search(criteria(c -> c.setFirstName("mária"))))).containsExactly(2L);
+        assertThat(ids(service.search(criteria(c -> c.setFirstName("věra"))))).containsExactly(2L);
     }
 
     @Test
     @DisplayName("Veľké písmená s diakritikou nájdu ten istý záznam ako in-memory")
     void should_matchUppercaseDiacritics_when_searching() {
-        assertThat(ids(service.search(criteria(c -> c.setFirstName("MÁRIA"))))).containsExactly(2L);
+        assertThat(ids(service.search(criteria(c -> c.setFirstName("VĚRA"))))).containsExactly(2L);
     }
 
     @Test
@@ -174,16 +174,16 @@ class JdbcBlacklistServiceTest {
     @Test
     @DisplayName("Poznámka má čas z hodín a orezaný text")
     void should_useClockAndTrim_when_addingNote() {
-        service.addNote(6, "  Overené telefonicky.  ", "Správca");
+        service.addNote(6, "  Overené telefonicky.  ", "Správce");
 
         assertThat(service.findById(6).get().getNotes())
-                .containsExactly(new Note("Overené telefonicky.", "Správca", LocalDateTime.of(2026, 10, 8, 10, 15)));
+                .containsExactly(new Note("Overené telefonicky.", "Správce", LocalDateTime.of(2026, 10, 8, 10, 15)));
     }
 
     @Test
     @DisplayName("Poznámka k neexistujúcemu záznamu je NotFound")
     void should_throwNotFound_when_addingNoteToUnknownRecord() {
-        assertThatThrownBy(() -> service.addNote(999, "text", "Správca")).isInstanceOf(NotFoundException.class);
+        assertThatThrownBy(() -> service.addNote(999, "text", "Správce")).isInstanceOf(NotFoundException.class);
     }
 
     private static BlacklistSearchCriteria criteria(Consumer<BlacklistSearchCriteria> setup) {

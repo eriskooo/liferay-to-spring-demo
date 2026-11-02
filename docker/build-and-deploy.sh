@@ -25,14 +25,14 @@ curl -s http://localhost:5540/api/databases | grep -q crm-shared-session     || 
 # Skript skončí až keď sú portlety nasadené, aby smoke testy nešli proti polovičnému stacku.
 # Presný text logu: webapp sa volá customercare-portlet (bez "s").
 READY_LOG="portlets for customercare-portlet are available for use"
-echo "Čakám na štart Liferay a deploy portletov (zvyčajne 1-3 min, max 10 min)..."
+echo "Čekám na start Liferay a deploy portletů (obvykle 1-3 min, max 10 min)..."
 for i in $(seq 1 120); do
     if docker compose logs --since "$DEPLOY_START" liferay 2>/dev/null | grep -qF "$READY_LOG"; then
-        echo "Hotovo za ~$((i * 5)) s. Ďalej: $NEXT"
+        echo "Hotovo za ~$((i * 5)) s. Dále: $NEXT"
         exit 0
     fi
     sleep 5
 done
-echo "CHYBA: Liferay nenasadil portlety do 10 min. Posledné riadky logu:" >&2
+echo "CHYBA: Liferay nenasadil portlety do 10 min. Poslední řádky logu:" >&2
 docker compose logs --tail 40 liferay >&2
 exit 1

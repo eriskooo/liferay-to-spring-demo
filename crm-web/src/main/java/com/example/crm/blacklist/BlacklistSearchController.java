@@ -58,7 +58,7 @@ public class BlacklistSearchController {
             // Validačná chyba sa vykreslí hneď (bez redirectu), aby zostali chyby pri poliach – rovnako ako render po action v portlete.
             return "blacklist/search";
         }
-        // Zdieľaná session: posledné kritériá vidí aj stará appka (a ladiaci skript show-session).
+        // Sdílená session: posledné kritériá vidí aj stará appka (a ladiaci skript show-session).
         session.setGlobalAttribute(LastSearchCriteria.KEY, new LastSearchCriteria(criteria.getFirstName(),
                 criteria.getLastName(), criteria.getIdentifierValue(),
                 criteria.getState() == null ? null : criteria.getState().name()));

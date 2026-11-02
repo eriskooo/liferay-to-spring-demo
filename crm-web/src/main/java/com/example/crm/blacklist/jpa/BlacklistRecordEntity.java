@@ -88,7 +88,7 @@ public class BlacklistRecordEntity {
         this.validTo = validTo;
     }
 
-    /** Zmena stavu a platnosti (uloží sa pri commite – dirty checking). */
+    /** Změna stavu a platnosti (uloží sa pri commite – dirty checking). */
     public void changeState(BlacklistState newState, LocalDate newValidTo) {
         this.state = newState;
         this.validTo = newValidTo;

@@ -21,8 +21,8 @@ import org.junit.jupiter.api.Test;
 
 class HttpPortalSessionManagerTest {
 
-    private static final String SESSION_JSON = "{\"operator\":{\"login\":\"spravca\",\"displayName\":\"Správca\"},"
-            + "\"customer\":{\"customerId\":\"C-1001\",\"displayName\":\"Ján Vzorový\"},\"unknownField\":1}";
+    private static final String SESSION_JSON = "{\"operator\":{\"login\":\"spravca\",\"displayName\":\"Správce\"},"
+            + "\"customer\":{\"customerId\":\"C-1001\",\"displayName\":\"Jan Vzorový\"},\"unknownField\":1}";
 
     private final AtomicInteger calls = new AtomicInteger();
     private HttpServer server;
@@ -48,9 +48,9 @@ class HttpPortalSessionManagerTest {
 
         assertThat(session.getSessionId()).isEqualTo("s-ok");
         assertThat(session.getOperator().getLogin()).isEqualTo("spravca");
-        assertThat(session.getOperator().getDisplayName()).isEqualTo("Správca");
+        assertThat(session.getOperator().getDisplayName()).isEqualTo("Správce");
         assertThat(session.getCustomer().getCustomerId()).isEqualTo("C-1001");
-        assertThat(session.getCustomer().getDisplayName()).isEqualTo("Ján Vzorový");
+        assertThat(session.getCustomer().getDisplayName()).isEqualTo("Jan Vzorový");
     }
 
     @Test

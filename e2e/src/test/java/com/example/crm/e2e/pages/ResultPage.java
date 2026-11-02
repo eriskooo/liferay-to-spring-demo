@@ -3,7 +3,7 @@ package com.example.crm.e2e.pages;
 import com.microsoft.playwright.Page;
 import java.util.List;
 
-/** Výsledky vyhľadávania. */
+/** Výsledky vyhledávání. */
 public final class ResultPage {
 
     private static final String DETAIL_PREFIX = "detail-";

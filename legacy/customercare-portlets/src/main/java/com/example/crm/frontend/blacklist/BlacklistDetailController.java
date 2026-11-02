@@ -58,13 +58,13 @@ public class BlacklistDetailController extends BaseCrmController {
     public String detail(@RequestParam("detailId") long detailId, Model model) {
         BlacklistRecord record = require(detailId);
         model.addAttribute("record", record);
-        // Zdieľaná session: hlavička (aj v novej appke) ukáže, s kým operátor naposledy pracoval.
+        // Sdílená session: hlavička (aj v novej appke) ukáže, s kým operátor naposledy pracoval.
         getSessionManager().setGlobalAttribute(LastViewedRecord.KEY,
                 new LastViewedRecord(record.getId(), record.getFullName()));
         return "blacklist/detail";
     }
 
-    /** Zmena stavu a platnosti. */
+    /** Změna stavu a platnosti. */
     @ActionMapping(params = "action=changeAction")
     public void change(@RequestParam("detailId") long detailId, @RequestParam("state") BlacklistState state,
                        @RequestParam(value = "validTo", required = false) LocalDate validTo, ActionResponse response) {

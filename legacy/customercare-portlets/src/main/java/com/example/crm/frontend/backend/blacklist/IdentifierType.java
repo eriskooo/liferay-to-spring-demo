@@ -2,7 +2,7 @@ package com.example.crm.frontend.backend.blacklist;
 
 import java.util.regex.Pattern;
 
-/** Typ identifikátora osoby a jeho formát (zjednodušené vzory pre demo). */
+/** Typ identifikátoru osoby a jeho formát (zjednodušené vzory pre demo). */
 public enum IdentifierType {
     BIRTH_CODE("\\d{6}/?\\d{3,4}"),
     ID_CARD("[A-Z]{2}\\d{6}"),

@@ -47,7 +47,7 @@ class BlacklistCreateControllerTest {
         controller.setSessionManager(sessionManager);
         controller.setOperatorAcl(acl);
         controller.setAuditLog(new AuditLog(auditLines::add));
-        when(sessionManager.getOperator()).thenReturn(new PortalOperator("spravca", "Správca"));
+        when(sessionManager.getOperator()).thenReturn(new PortalOperator("spravca", "Správce"));
     }
 
     @Test
@@ -162,7 +162,7 @@ class BlacklistCreateControllerTest {
     }
 
     @Test
-    @DisplayName("Zrušenie ukončí formulár v session a vráti vyhľadávanie")
+    @DisplayName("Zrušení ukončí formulár v session a vráti vyhľadávanie")
     void should_completeAndReturnToSearch_when_cancelled() {
         SimpleSessionStatus status = new SimpleSessionStatus();
 
@@ -194,7 +194,7 @@ class BlacklistCreateControllerTest {
                 .map(e -> e.getField()).collect(Collectors.toList());
     }
     @Test
-    @DisplayName("Meno a priezvisko nad 100 znakov (dĺžka stĺpca v DB) sú chyby polí, nič nevznikne")
+    @DisplayName("Jméno a příjmení nad 100 znakov (dĺžka stĺpca v DB) sú chyby polí, nič nevznikne")
     void should_rejectValuesLongerThanColumns_when_formValidated() {
         CreateForm form = validForm();
         form.setFirstName(repeat('x', 101));

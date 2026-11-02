@@ -6,7 +6,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 case "${1:-}" in
     legacy|migrated) TARGETS=("$1") ;;
     all) TARGETS=(legacy migrated) ;;
-    *) echo "Použitie: $0 legacy|migrated|all [-De2e.headed=true] [-De2e.browser=chromium]" >&2; exit 2 ;;
+    *) echo "Použití: $0 legacy|migrated|all [-De2e.headed=true] [-De2e.browser=chromium]" >&2; exit 2 ;;
 esac
 shift
 FAILS=0
@@ -15,5 +15,5 @@ for target in "${TARGETS[@]}"; do
     mvn -q -B -f "$ROOT/e2e/pom.xml" verify -De2e.target="$target" "$@" || FAILS=$((FAILS + 1))
 done
 echo
-if [ "$FAILS" -eq 0 ]; then echo "E2E OK"; else echo "E2E: $FAILS cieľ(e) zlyhali – artefakty v e2e/target/e2e-artifacts/"; fi
+if [ "$FAILS" -eq 0 ]; then echo "E2E OK"; else echo "E2E: $FAILS cíl(e) selhal(y) – artefakty v e2e/target/e2e-artifacts/"; fi
 exit "$FAILS"

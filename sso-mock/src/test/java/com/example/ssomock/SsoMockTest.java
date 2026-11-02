@@ -29,7 +29,7 @@ class SsoMockTest {
     void should_offerOperatorsAndCustomers_when_loginPageOpened() throws Exception {
         mvc.perform(get("/login").param("returnUrl", "/web/crm/dashboard"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("Správca")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Správce")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("C-1002")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("value=\"/web/crm/dashboard\"")));
     }
@@ -75,9 +75,9 @@ class SsoMockTest {
         mvc.perform(get("/api/sessions/" + id))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.operator.login").value("citatel"))
-                .andExpect(jsonPath("$.operator.displayName").value("Čitateľ"))
+                .andExpect(jsonPath("$.operator.displayName").value("Čtenář"))
                 .andExpect(jsonPath("$.customer.customerId").value("C-1002"))
-                .andExpect(jsonPath("$.customer.displayName").value("Firma Ukážka s.r.o."));
+                .andExpect(jsonPath("$.customer.displayName").value("Firma Ukázka s.r.o."));
     }
 
     @Test
@@ -125,7 +125,7 @@ class SsoMockTest {
         String id = sessionId(login("spravca", "C-1001", "/"));
 
         mvc.perform(get("/login").cookie(new Cookie("SSO_ID", id)))
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("Prihlásený: Správca")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Přihlášen: Správce")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("action=\"/sso/customer\"")));
     }
 

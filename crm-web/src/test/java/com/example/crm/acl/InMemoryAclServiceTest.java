@@ -11,7 +11,7 @@ class InMemoryAclServiceTest {
 
     @Test
     void readerCanOnlyViewBlacklist() {
-        OperatorUser reader = new OperatorUser("citatel", "Čitateľ");
+        OperatorUser reader = new OperatorUser("citatel", "Čtenář");
 
         assertThat(acl.hasPrivilege(reader, Privilege.BLACKLIST_VIEW)).isTrue();
         assertThat(acl.hasPrivilege(reader, Privilege.BLACKLIST_MODIFY)).isFalse();
@@ -20,7 +20,7 @@ class InMemoryAclServiceTest {
 
     @Test
     void adminHasAllPrivileges() {
-        assertThat(acl.privilegesOf(new OperatorUser("spravca", "Správca")))
+        assertThat(acl.privilegesOf(new OperatorUser("spravca", "Správce")))
                 .containsExactlyInAnyOrder(Privilege.values());
     }
 

@@ -32,7 +32,7 @@ class SessionManagerCustomImplTest {
     void should_readIdentityFromPortalOnce_when_askedRepeatedly() {
         FakeRequestAwareManager request = new FakeRequestAwareManager();
         when(portal.getPortalSession(any(HttpServletRequest.class))).thenReturn(new PortalSession("s-1",
-                new PortalOperator("spravca", "Správca"), new PortalCustomer("C-1001", "Ján Vzorový")));
+                new PortalOperator("spravca", "Správce"), new PortalCustomer("C-1001", "Jan Vzorový")));
         SessionManagerCustom manager = manager(request);
 
         assertThat(manager.isLoggedIn()).isTrue();
