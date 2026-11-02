@@ -1,6 +1,6 @@
 # Nová aplikace „po“ (Spring Boot) – zmigrovaný blacklist
 
-Portlet **blacklist ne-zákazníků** ze staré aplikace (`../legacy`, Liferay 6.2) přepsaný na Spring Boot 4.1.1 + JSP.
+Portlet **blacklist nezákazníků** ze staré aplikace (`../legacy`, Liferay 6.2) přepsaný na Spring Boot 4.1.1 + JSP.
 Běží **souběžně** se starou aplikací za jedním nginx: blacklist obsluhuje nová aplikace, dashboard zůstává v Liferay.
 Obě aplikace sdílejí identitu (SSO mock, cookie `SSO_ID`) a session (Redis hash `crm:session:{SSO_ID}`).
 

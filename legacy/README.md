@@ -1,6 +1,6 @@
 # Legacy aplikace „před“ (Liferay 6.2)
 
-Příklady **blacklist ne-zákazníků** a **zrušení služby** jako portlety v reálném Liferay 6.2 – stejný stack
+Příklady **blacklist nezákazníků** a **zrušení služby** jako portlety v reálném Liferay 6.2 – stejný stack
 a mechanismy jako legacy CRM, napsané znovu a anonymizované. Podprojekt 2 je zmigruje na Spring Boot.
 
 ## Stack
@@ -61,13 +61,13 @@ Zákazníci: `C-1001` Jan Vzorový (3 produkty), `C-1002` Firma Ukázka s.r.o. (
    - **Přidat poznámku**: poznámka se jménem operátora; prázdná poznámka → chybová hláška.
    - **Odstranit** u identifikátoru: AJAX (resource fáze) překreslí jen seznam; poslední identifikátor
      odstranit nelze (hláška ve fragmentu).
-5. **Nový záznam** (na stránce vyhledávání): změna *Dôvodu* přes AJAX překreslí povolené *Podmienky*.
+5. **Nový záznam** (na stránce vyhledávání): změna *Důvodu* přes AJAX překreslí povolené *Podmínky*.
    Odešli neúplný formulář → chyby u polí; vyplněný → detail nového záznamu.
 6. **Dashboard** (navigace nahoře): produkty zákazníka ze SSO. **Zrušit** u *Tarif Neomezený* →
    formulář (`page=tariffDeactivation`). Změna typu nebo data podání zavolá JSON resource a nastaví
    *Nejdříve:*. Příliš brzké datum → chyba; správné → potvrzení se žádostí.
-   Legacy past `@SessionAttributes`: u *Tarif Neomezený* zvol *Zrušení* a datum „Ke dni“ dřívější než *Najskôr*
-   → **Odoslať** skončí chybou (formulář zůstane v session). Vrať se na produkty a otevři *Tarif Standard* – typ a data
+   Legacy past `@SessionAttributes`: u *Tarif Neomezený* zvol *Zrušení* a datum „Ke dni“ dřívější než *Nejdříve*
+   → **Odeslat** skončí chybou (formulář zůstane v session). Vrať se na produkty a otevři *Tarif Standard* – typ a data
    zůstala z předchozího formuláře. Po úspěšném odeslání se formulář ze session odstraní (`setComplete`), proto
    se past projeví jen po neúspěšném pokusu; migrace ji odstraní úplně.
 7. **Změna zákazníka:** v hlavičce **Změnit zákazníka** → v SSO mocku vyber `C-1002` → dashboard ukáže jiné produkty.

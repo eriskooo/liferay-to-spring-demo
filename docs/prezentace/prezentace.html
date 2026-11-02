@@ -2,7 +2,7 @@
 <html lang="cs">
 <head>
 <meta charset="UTF-8">
-<title>Migrace blacklistu na Spring Boot – postup k odsouhlasení</title>
+<title>Migrace z Liferay 6.2 na Spring Boot – ukázka možného postupu</title>
 <!-- Zdroj PDF prezentace pro tým stávající aplikace. PDF: viz docs/prezentace/README.md. Screenshoty z běžícího dema (img/). -->
 <style>
   @page { size: 1280px 720px; margin: 0; }
@@ -64,18 +64,18 @@
 <!-- 1 -->
 <section class="slide title-slide">
   <p class="kicker" style="color:#8fd6b4">Pilot: modul blacklist</p>
-  <h1>Migrace z Liferay 6.2 na Spring Boot<br>postup k odsouhlasení</h1>
-  <p class="lead">Pro tým stávající aplikace: co se u vás změní, co zůstane, jak to ověřujeme.</p>
+  <h1>Migrace z Liferay 6.2 na Spring Boot<br>ukázka možného postupu</h1>
+  <p class="lead">Pro tým stávající aplikace: co by se ve staré aplikaci změnilo, co by zůstalo a jak se to dá ověřit.</p>
   <p class="lead" style="margin-top:40px;font-size:18px;color:#a9b6c6">Listopad 2026 · ukázky z běžícího dema</p>
 </section>
 
 <!-- 2 -->
 <section class="slide">
   <p class="kicker">Shrnutí</p>
-  <h1>O čem rozhodujeme</h1>
+  <h1>Jedno z možných řešení ve třech bodech</h1>
   <div class="steps" style="margin-top:20px">
     <div class="step"><b>1</b><span><strong>Postupná náhrada.</strong> Moduly se přesouvají po jednom do nové aplikace (Spring Boot). Liferay běží dál.</span></div>
-    <div class="step"><b>2</b><span><strong>Malé úpravy u vás.</strong> Stará aplikace dostane sdílenou session v Redisu. Controllery a JSP zůstávají.</span></div>
+    <div class="step"><b>2</b><span><strong>Malé úpravy staré aplikace.</strong> Session fasáda navíc zapisuje do Redisu. Controllery a JSP zůstávají.</span></div>
     <div class="step"><b>3</b><span><strong>Ověřeno a vratné.</strong> Stejné testy procházejí na staré i nové aplikaci. Návrat zpět = jedno pravidlo v nginx.</span></div>
   </div>
   <p class="lead" style="margin-top:36px">Pro uživatele se nic nemění: stejné obrazovky, texty, přihlášení i oprávnění.</p>
@@ -204,7 +204,7 @@ APP_BLACKLIST_LAST_CRITERIA
 <!-- 9 -->
 <section class="slide">
   <p class="kicker">Pro tým stávající aplikace</p>
-  <h1>Co se mění ve staré aplikaci</h1>
+  <h1>Co by se ve staré aplikaci změnilo</h1>
   <table>
     <tr><th style="width:24%">Oblast</th><th>Úprava</th><th style="width:28%">Rozsah v pilotu</th></tr>
     <tr><td><strong>Session fasáda</strong></td>
@@ -223,7 +223,7 @@ APP_BLACKLIST_LAST_CRITERIA
         <td>API nad stávajícími službami (včetně transakčních operací). Stávající volání se nemění.</td>
         <td>plán, po analýze backendu</td></tr>
   </table>
-  <p class="muted small" style="margin-top:14px">Všechny úpravy přidávají, nic neodebírají. Nasazují se standardním release procesem před přepnutím prvního modulu.</p>
+  <p class="muted small" style="margin-top:14px">Úpravy jen přidávají, nic neodebírají. V reálném projektu by šly přes běžný release proces staré aplikace, před přepnutím prvního modulu.</p>
   <div class="num">9</div>
 </section>
 
@@ -282,25 +282,25 @@ APP_BLACKLIST_LAST_CRITERIA
 
 <!-- 12 -->
 <section class="slide">
-  <p class="kicker">Další krok</p>
-  <h1>Prosíme o odsouhlasení</h1>
+  <p class="kicker">Možné pokračování</p>
+  <h1>Shrnutí</h1>
   <div class="row" style="flex:0 0 auto">
     <div class="col">
-      <h2>K odsouhlasení</h2>
-      <ul class="ask">
+      <h2>Co demo ukazuje</h2>
+      <ul class="check">
         <li>Postupná náhrada po modulech, souběh za nginx</li>
         <li>Úprava session fasády: zápis do Redisu a přepínač čtení</li>
         <li>Sdílená databáze bez převodu dat</li>
-        <li>Testy na staré aplikaci jako podmínka převzetí modulu</li>
+        <li>Testy na staré aplikaci jako měřítko hotového modulu</li>
       </ul>
     </div>
     <div class="col box">
-      <h2>Od vás potřebujeme</h2>
+      <h2>Co by reálný projekt předpokládal</h2>
       <ul class="small" style="padding-left:22px">
-        <li style="font-size:18px">Kontrolu úprav session fasády (code review)</li>
-        <li style="font-size:18px">Zařazení úprav do vašeho release procesu</li>
-        <li style="font-size:18px">Spolupráci na scénářích testů pro další modul</li>
-        <li style="font-size:18px">Přístup k backendu a internímu Maven repozitáři</li>
+        <li style="font-size:18px">Zdrojové kódy backendu a interní Maven repozitář (napojení backendu)</li>
+        <li style="font-size:18px">Testovací prostředí se SSO portálem a testovací data</li>
+        <li style="font-size:18px">Scénáře dalšího modulu, nejlépe společně s lidmi, kteří ho znají</li>
+        <li style="font-size:18px">Úpravy session fasády jsou malé a otevřené ke kontrole; šly by vaším běžným release procesem</li>
       </ul>
     </div>
   </div>

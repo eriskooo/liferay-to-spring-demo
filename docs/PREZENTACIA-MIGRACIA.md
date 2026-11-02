@@ -92,7 +92,7 @@ Malé, předem známé a **přidávající**: nemění chování, nasazují se p
 | Infrastruktura | nginx před aplikací |
 
 Úpravy ověří tytéž automatické testy jako novou aplikaci.
-Upgrade backendu na nový stack na místě nedoporučujeme: vylučuje postupnou migraci.
+Variantu upgradu backendu na nový stack na místě jsme nezvolili: vylučovala by postupnou migraci.
 
 ---
 
@@ -172,20 +172,19 @@ Následující oblasti pilot zatím neověřil:
 
 ---
 
-# Součinnost zákazníka
+# Co by řešení předpokládalo
 
-- přístup ke zdrojovým kódům backendu a k internímu Maven repozitáři
+- zdrojové kódy backendu a interní Maven repozitář (napojení backendu)
 - testovací prostředí napojené na SSO portál, testovací data
-- klíčoví uživatelé pro definici scénářů jednotlivých modulů
-- prostředí pro provoz nové aplikace jako samostatného procesu (kontejner nebo služba)
-- potvrzení, že se bezpečnostní model během migrace nemění
-- zařazení úprav stávající aplikace a backendu do standardního release procesu
+- scénáře jednotlivých modulů, nejlépe společně s lidmi, kteří je denně používají
+- provoz nové aplikace jako samostatného procesu (kontejner nebo služba)
+- úpravy stávající aplikace a backendu přes její standardní release proces
 
 ---
 
-# Doporučení
+# Možný další krok
 
-### Pilotní migrace jednoho modulu na prostředí zákazníka
+### Pilotní migrace jednoho modulu v reálném prostředí
 
 1. Výběr pilotního modulu a napojení na skutečné SSO a backend.
 2. Testy shodného chování napsané na stávající aplikaci.

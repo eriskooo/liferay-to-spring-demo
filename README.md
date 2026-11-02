@@ -6,10 +6,10 @@
 
 Reálný projekt je velký: legacy CRM pro zákaznickou podporu na **Liferay 6.2** (Java 8, Spring Portlet MVC, JSP),
 13 portletů, **1 241 JSP pohledů**, ~235 tis. řádků Javy v modulu portletů, backend ve stejném JVM
-(čísla a metodika v [`docs/ANALYZA.md`](docs/ANALYZA.md)). Takový rozsah nelze migrovat najednou ani „přepsat AI 1:1“
-– to ukázal předchozí PoC.
+(čísla a metodika v [`docs/ANALYZA.md`](docs/ANALYZA.md)). Takový rozsah se těžko migruje najednou; předchozí PoC
+ukázal, že samotný přepis stránek (i s pomocí AI) nestačí – stránky se vykreslí, ale část funkcí chybí.
 
-Toto repo proto **na malém, ale úplném výřezu** ukazuje, jak migraci vést: jednotlivé kroky, strategii, rozhodnutí,
+Toto repo proto **na malém, ale úplném výřezu** ukazuje jeden z možných způsobů, jak migraci vést: jednotlivé kroky, strategii, rozhodnutí,
 ověření a podklady pro plánování a odhady. Vše tady běží lokálně v Dockeru: stará aplikace, nová aplikace, společná
 identita, session a databáze, nginx jako jediný vstup a e2e testy, které drží novou aplikaci funkční.
 
@@ -102,7 +102,7 @@ zelené na legacy i na nové aplikaci a (c) je možné ji vrátit jedním přesm
 | Vlastní dispatch (~970 JSP) | krok 6 – dashboard |
 | Skryté Liferay závislosti v tazích (~16 000 použití) | tagy se stejným rozhraním a servletovou implementací |
 | Sémantika portletových fází | PRG, explicitní model, past `@SessionAttributes` popsaná v [`poznamky/07`](poznamky/07-pasce.md) |
-| Mělký výsledek „AI 1:1“ přepisu | charakterizační e2e testy jako akceptační kritérium |
+| Přepis stránek bez ověření chování (zkušenost z PoC) | charakterizační e2e testy jako akceptační kritérium |
 
 ## Technologie
 

@@ -52,5 +52,5 @@ SSO portál (session).
 ## Rozhodnutí pro demo (uživatel, 2026-10-08)
 - Držet se podkladů: **Spring MVC controllery + JSP** (server-side), AJAX/resource volání → JSON
   endpointy (to je „REST“ část). Žádné SPA, žádné JSF.
-- Rozsah: blacklist ne-zákazníků + zjednodušené zrušení služby. Java 21.
+- Rozsah: blacklist nezákazníků + zjednodušené zrušení služby. Java 21.
 - Security: neměnit – session fasáda + fake login + vlastní ACL jako v legacy.

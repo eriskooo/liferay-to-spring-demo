@@ -7,7 +7,7 @@ Cesty relativně k `$FE/customercare-portlets/src/main` (= `CP`). Věci ověřen
 - ~1418 Java souborů (~227 k LOC), **1241 JSP** ✔, 219 `.tag`, 41 testů.
 - **13 portletů** ve `webapp/WEB-INF/portlet.xml` ✔ (JSR-286 / Portlet 2.0).
   Oblasti: kontext zákazníka + hlavička + fake login, objednávky (order), dashboard, billing,
-  požadavky zákazníka, scoring, blacklist ne-zákazníků, vyhledávání dokumentů, kontaktní osoby,
+  požadavky zákazníka, scoring, blacklist nezákazníků, vyhledávání dokumentů, kontaktní osoby,
   2 vyřazené (decommissioned) portlety.
 - Typ: **Spring Portlet MVC** (anotace) ✔ – žádný `MVCPortlet`, `GenericPortlet` ani JSF.
   `@Controller` 246, `@RenderMapping` 174, `@ActionMapping` 347, `@ResourceMapping` 598 ✔,
@@ -63,6 +63,6 @@ resource = samostatný GET/POST endpoint (REST).
 ## Kandidáti na demo
 | Feature | Kde | Velikost | Liferay závislost | Samostatnost |
 |---|---|---|---|---|
-| Blacklist ne-zákazníků | vlastní portlet, 4 controllery, 4 JSP | ~4 200 LOC | nepřímá (URL tagy, base controller, dispatcher) | **nejvyšší** – standardní annotation mapping, search→detail→create, validátory, ACL, 1 backend služba |
+| Blacklist nezákazníků | vlastní portlet, 4 controllery, 4 JSP | ~4 200 LOC | nepřímá (URL tagy, base controller, dispatcher) | **nejvyšší** – standardní annotation mapping, search→detail→create, validátory, ACL, 1 backend služba |
 | Plánované odstávky | stránka v dashboard portletu | ~570 LOC | žádná přímá; závisí na dashboard dispatchi | střední – volá integrační klienty |
 | Zrušení služby (deaktivace tarifu) | stránka v dashboard portletu + manager | ~3 800 LOC | `PortalUtil`, session manager, dashboard dispatch | nízká – 7+ backend služeb, velký manager |

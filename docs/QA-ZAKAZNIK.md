@@ -1,8 +1,8 @@
 # Migrace z Liferay 6.2 na Spring Boot: otázky a odpovědi
 
-Příprava na jednání se zákazníkem. Otázky klade provozovatel stávající aplikace na Liferay 6.2,
-odpovídá dodavatel migrace. Každá odpověď uvádí, čím je tvrzení doloženo v demu (repo, testy, měření).
-Body, které demo neověřilo, jsou uvedeny vecně a shrnuty v části **Otevřené body** na konci.
+Otázky, které při úvaze o migraci obvykle zazní z pohledu provozovatele stávající aplikace na Liferay 6.2,
+a odpovědi dodavatele migrace. Každá odpověď uvádí, čím je tvrzení doloženo v demu (repo, testy, měření).
+Body, které demo neověřilo, jsou uvedeny věcně a shrnuty v části **Otevřené body** na konci.
 
 Výchozí čísla z analýzy legacy aplikace: 13 portletů, 1 241 JSP pohledů, ~235 tis. řádků Javy v modulu portletů,
 ~16 000 použití vlastních tagů, backend ve stejném JVM ([`ANALYZA.md`](ANALYZA.md)).
@@ -19,7 +19,7 @@ platformy při zachování funkcionality.
 
 ### 2. Proč ne upgrade na novější Liferay?
 Upgrade na Liferay 7.x znamená přepsat portlety na nový modulový model (OSGi). Pracnost je srovnatelná s migrací,
-závislost na portálu ale zůstává. Vaše zadání zní odstranit Liferay, nikoli ho aktualizovat. Portál přitom
+závislost na portálu ale zůstává. Podklady uvádějí jako cíl odstranit závislost na Liferay, nikoli ho aktualizovat. Portál přitom
 aplikaci nedodává žádnou funkci, kterou by bylo nutné zachovat: identitu vlastní SSO portál, obsah CMS se nepoužívá.
 
 ### 3. Změní se něco pro operátory?
@@ -51,7 +51,7 @@ release procesem dřív, než se přepne první modul:
 
 Stávající frontend volá backend dál stejně jako dnes, nová aplikace volá nové API. Úpravy ověříme stejnými
 automatickými testy, které musí na stávající aplikaci zůstat zelené.
-Variantu, která by vyžadovala velký zásah (upgrade backendu na nový stack na místě), nedoporučujeme:
+Variantu s velkým zásahem (upgrade backendu na nový stack na místě) jsme nezvolili:
 stávající frontend by ho přestal načítat a migrace by se nedala provádět postupně.
 *Doloženo:* stará aplikace v demu obsahuje sdílenou session, přepínač zdroje čtení i kontrolu vlastníka session.
 
@@ -104,7 +104,7 @@ nebo akce a kontroluje se centrálně při každém požadavku.
 
 ### 14. Poběží nová aplikace na našem aplikačním serveru JBoss?
 Ne, aplikační server nebude potřeba. Nová aplikace běží jako samostatný proces s vestavěným Tomcatem a nasazuje se
-jako kontejner nebo systémová služba. Nasazení na JBoss nedoporučujeme: Spring Boot 4 vyžaduje Servlet 6.1
+jako kontejner nebo systémová služba. Nasazení na JBoss by naráželo na to, že Spring Boot 4 vyžaduje Servlet 6.1
 (Jakarta EE 11) a nepodporuje webový server Undertow, na kterém JBoss stojí. Cílový provoz tak nepřebírá žádnou
 část stávající platformy.
 *Doloženo:* nová aplikace běží v demu jako samostatný kontejner vedle Liferay.
@@ -117,7 +117,7 @@ Během souběhu běží vedle sebe Liferay, nová aplikace, nginx a Redis.
 ### 16. Bude nová aplikace pomalejší?
 Výkon staré a nové aplikace jsme v demu zatím neporovnávali. Nová aplikace odstraňuje vrstvu portálu (skládání
 stránky z portletů), proto nepředpokládáme zhoršení. Tvrdit to ale budeme až po měření: nástroj pro zátěžový test je
-součástí dema, scénář pro starou aplikaci je třeba doplnit. Měření navrhujeme na pilotní oblasti proti oběma aplikacím.
+součástí dema, scénář pro starou aplikaci by se doplnil. Měření by dávalo smysl na pilotní oblasti proti oběma aplikacím.
 
 ## C. Řízení, odhad, rizika
 
@@ -146,18 +146,17 @@ Předchozí PoC měřil úspěch počtem převedených JSP. Stránky se vykresli
 je např. chyba bindování formuláře). Nyní je akceptačním kritériem chování ověřené e2e testy na staré aplikaci.
 AI nástroje používáme jako pomoc při přenosu kódu, ne jako náhradu ověření.
 
-### 21. Co od nás potřebujete?
-- přístup ke zdrojovým kódům backendových modulů a k internímu Maven repozitáři,
+### 21. Co by řešení předpokládalo?
+- zdrojové kódy backendových modulů a interní Maven repozitář (napojení backendu, otázka 12),
 - testovací prostředí s napojením na SSO portál a testovací data,
-- klíčové uživatele pro definici scénářů jednotlivých oblastí,
-- prostředí pro provoz nové aplikace jako samostatného procesu (kontejner nebo služba),
-- potvrzení, že se bezpečnostní model nemění,
-- souhlas s výběrem pilotní oblasti,
-- zařazení přidávajících úprav stávající aplikace a backendu do vašeho release procesu (otázka 6).
+- scénáře jednotlivých oblastí, nejlépe společně s lidmi, kteří je denně používají,
+- provoz nové aplikace jako samostatného procesu (kontejner nebo služba),
+- pilotní oblast; v demu je to blacklist jako malá, ale úplná,
+- přidávající úpravy stávající aplikace a backendu přes její běžný release proces (otázka 6).
 
 ---
 
-## Otevřené body (vecně, pro jednání)
+## Otevřené body (věcně)
 
 | Bod | Stav | Kdy se rozhodne |
 |---|---|---|
