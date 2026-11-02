@@ -16,7 +16,6 @@ lokálního, git-ignorovaného souboru `LOCAL-aliasy.md`, který se přenáší 
 | [07-pasce.md](07-pasce.md) | konkrétní pasti zjištěné v kódu a lozích |
 | [09-session-liferay-vs-spring.md](09-session-liferay-vs-spring.md) | session před → po: PortletSession scope, fasáda, `@SessionAttributes`, jak se najde správná session, duální session |
 | [10-liferay62-v-dockeri.md](10-liferay62-v-dockeri.md) | jak rozběhnout Liferay 6.2 lokálně (Java 8 ≤ 255, HSQL, deploy, oprávnění hosta, nginx) |
-| [11-appka-v-inom-jazyku.md](11-appka-v-inom-jazyku.md) | kontrakt pro další aplikaci v jiném jazyce za stranglerem (identita, Redis session, cookies) – ověřeno Rust kopií |
 | [12-charakterizacni-e2e-testy.md](12-charakterizacni-e2e-testy.md) | charakterizační e2e testy (UI + DB + log) napsané na legacy jako akceptační kritérium migrace; co se mění při přenosu, pasti |
 | [13-cesta-requestu.md](13-cesta-requestu.md) | co pošle prohlížeč po submitu JSP formuláře a jak server najde metodu: Liferay (`p_p_id`, fáze, action+render v jednom requestu) vs. Boot (cesta, PRG); proč to není REST |
 | [../kb-graph/README.md](../kb-graph/README.md) | znalostní báze v grafu (Neo4j): struktura repa z kódu + pasti a koncepty jako lekce, uložené dotazy, jak přidat poznatek |

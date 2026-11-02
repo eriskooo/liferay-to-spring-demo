@@ -22,7 +22,6 @@ identita, session a databáze, nginx jako jediný vstup a e2e testy, které drž
 | **Redis** | sdílená session `crm:session:{SSO_ID}` (hlášky, poslední záznam, kritéria) | :6379, RedisInsight :5540 |
 | **Postgres** | sdílená DB blacklistu (schéma `blacklist`) – stará aplikace přes JDBC, nová přes JPA | :5433 |
 | **e2e** – [`e2e/`](e2e/README.md) | charakterizační testy (Chrome): UI + DB + audit log, stejná sada na obě aplikace | `bash docker/e2e.sh` |
-| *bonus* **crm-web-rs** – [`crm-web-rs/`](crm-web-rs/README.md) | tentýž blacklist v Rustu: kontrakt identity a session nezávisí na jazyku | `/crm-rs/…` |
 
 ## Strategie
 
@@ -58,9 +57,6 @@ Každý krok má výstup, který lze předvést, a ověření, které ho drží 
 | 6 | Druhý portlet: **dashboard** (zrušení služby) | vlastní dispatch podle parametru `page` → URL, kontext zákazníka, JSON endpointy | – | e2e scénáře dashboardu | další |
 | 7 | Průřezová témata | deeplinky a odkazy „zpět“, i18n z CMS, kompozice stránky, security | – | e2e + review | plán |
 | 8 | **Přepnutí a vyřazení Liferay** | všechny cesty v nginx na novou aplikaci, flag session na `REDIS`, vypnutí portálu | – | plná e2e sada, provozní metriky | plán |
-
-Bonus mimo plán migrace: Rust kopie nové aplikace a [zátěžový test Java vs. Rust](docs/BENCHMARK.md)
-(prezentace [`docs/PREZENTACIA-RUST.md`](docs/PREZENTACIA-RUST.md)).
 
 ### Co krok 4 přinesl
 
@@ -143,10 +139,9 @@ legacy/      stará aplikace na Liferay 6.2 (Java 8, Spring Portlet MVC) – 4 m
 crm-web/     nová aplikace (Spring Boot 4.1.1) se zmigrovaným blacklistem
 e2e/         charakterizační e2e testy (Playwright Java + JUnit 5) pro obě aplikace
 sso-mock/    mock SSO portálu
-docker/      compose (nginx, Liferay, crm-web, SSO, Redis, Postgres), skripty build / smoke / e2e / benchmark
-docs/        analýza, migrace před → po, benchmark, prezentace; docs/superpowers = specifikace a plány kroků
+docker/      compose (nginx, Liferay, crm-web, SSO, Redis, Postgres), skripty build / smoke / e2e
+docs/        analýza, migrace před → po; docs/superpowers = specifikace a plány kroků
 poznamky/    přenositelná znalostní báze pro reálný projekt
-crm-web-rs/  bonus: Rust kopie nové aplikace (volitelná, mimo plán migrace)
 input/       klientské podklady – git-ignorované, read-only, nejsou součástí repa
 ```
 

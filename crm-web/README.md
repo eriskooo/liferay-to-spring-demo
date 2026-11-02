@@ -79,5 +79,5 @@ bash docker/e2e.sh migrated            # charakterizační e2e testy (UI + DB + 
 
 ## Vědomá omezení
 
-- Dashboard (zrušení služby) a Rust kopie mají dál in-memory data; blacklist obou Java aplikací je ve sdílené DB.
+- Dashboard (zrušení služby) má dál in-memory data; blacklist obou aplikací je ve sdílené DB.
 - Stránky nové aplikace berou CSS z Liferay (`/html/themes/classic/…`) přes nginx – mimo :8000 mají jen základní styl.

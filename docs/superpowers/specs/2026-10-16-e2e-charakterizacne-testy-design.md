@@ -110,8 +110,7 @@ AUDIT event=blacklist.identifier.remove recordId=1 identifierId=2 operator=sprav
 - Kontrakt sa zapíše do `docs/MIGRACIA.md`.
 
 ### 4.3 Čo sa nemení
-Dashboard (zrušenie služby) a `crm-web-rs` ostávajú in-memory. Rust kópia sa tak dátami blacklistu rozíde s Java
-appkami – známe obmedzenie, zapíše sa do `crm-web-rs/README.md`.
+Dashboard (zrušenie služby) ostáva in-memory.
 
 ## 5. E2E modul `e2e/`
 
@@ -191,13 +190,12 @@ spustí reset seedu, aby výsledok nezávisel od poradia.
   oprava odchýlok), čo sa mení pri prenose (`E2eConfig`, `DbProbe`, `LogProbe`), pasce (nestabilné portlet URL,
   zdieľaná DB a sériový beh, rotácia logov, osobné údaje v audite); odkaz z `poznamky/README.md`.
 - `docs/MIGRACIA.md` – kontrakt audit logu, JDBC adaptér v mapovacej tabuľke.
-- `CLAUDE.md`, `README.md`, `legacy/README.md`, `crm-web/README.md`, `crm-web-rs/README.md` – služba `postgres`,
-  `docker/logs/`, `docker/e2e.sh`, obmedzenie Rust kópie.
+- `CLAUDE.md`, `README.md`, `legacy/README.md`, `crm-web/README.md` – služba `postgres`,
+  `docker/logs/`, `docker/e2e.sh`.
 - Anonymizácia: žiadne skutočné mená/systémy; kontrola `bash poznamky/LOCAL-anonymizacia.sh`.
 
 ## 8. Mimo rozsahu
 - Dashboard / zrušenie služby (ostáva v Liferay, in-memory).
-- `crm-web-rs` na DB a v e2e sade.
 - Cucumber/Gherkin vrstva (dá sa doplniť neskôr nad page objects a sondy).
 - CI pipeline; paralelný beh cieľov.
 - Migrácie schémy (Flyway/Liquibase) – DDL rieši init skript.

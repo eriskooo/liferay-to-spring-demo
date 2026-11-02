@@ -33,9 +33,9 @@ class NginxExtractorTest {
     @Test
     @DisplayName("Každý location patrí nginx")
     void should_linkRoutesToNginx_whenConfParsed() {
-        assertThat(graph.count("Route")).isEqualTo(6);
+        assertThat(graph.count("Route")).isEqualTo(5);
         assertThat(graph.edges()).filteredOn(e -> e.type().equals("ROUTES"))
-                .hasSize(6)
+                .hasSize(5)
                 .allMatch(e -> e.from().equals(service("nginx")));
     }
 
@@ -50,7 +50,7 @@ class NginxExtractorTest {
     @Test
     @DisplayName("proxy_pass cez premennú sa vyrieši zo set")
     void should_resolveVariable_whenProxyPassUsesSet() {
-        assertThat(graph.edges()).contains(new Edge("PROXIES_TO", route("/crm-rs/"), service("crm-web-rs")));
+        assertThat(graph.edges()).contains(new Edge("PROXIES_TO", route("/sso/"), service("sso-mock")));
     }
 
     @Test

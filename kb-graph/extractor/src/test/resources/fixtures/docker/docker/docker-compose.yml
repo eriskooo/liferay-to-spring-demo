@@ -18,11 +18,11 @@ services:
       postgres:
         condition: service_healthy
 
-  crm-web-rs:
+  sso-mock:
     build:
       context: ..
-      dockerfile: crm-web-rs/Dockerfile
-    profiles: [rs]
+      dockerfile: sso-mock/Dockerfile
+    profiles: [sso]
     depends_on: [redis]
 
   liferay:

@@ -1,9 +1,0 @@
-# Build kontext crm-web-rs je koreň repa – do kontextu smie len toto (nikdy input/, target/ ani dáta Liferay).
-*
-!crm-web-rs/Cargo.toml
-!crm-web-rs/Cargo.lock
-!crm-web-rs/src/
-!crm-web-rs/templates/
-!crm-web-rs/messages-rs.properties
-!crm-web/src/main/resources/messages.properties
-!crm-web/src/main/resources/static/

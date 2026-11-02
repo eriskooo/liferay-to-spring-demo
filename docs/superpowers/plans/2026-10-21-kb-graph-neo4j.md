@@ -152,7 +152,7 @@ void should_skipBuildOutput_whenPresent()             // fixture other/target/po
 
 **Files:**
 - Create: `extract/ComposeExtractor.java`, `extract/NginxExtractor.java`
-- Test: `extract/ComposeExtractorTest.java`, `extract/NginxExtractorTest.java`; fixtures `fixtures/docker/docker-compose.yml`, `fixtures/docker/nginx/default.conf` (skrátené kópie skutočných súborov: služby `redis`, `postgres`, `crm-web` (build `../crm-web`), `crm-web-rs` (profil `rs`, build context `..`), `liferay` (build `./liferay`), `nginx`; locations `/sso/`, `/web/crm/blacklist` (return 302), `/crm/`, `/crm-rs/` (cez `set $crm_rs`), `= /`, `/`)
+- Test: `extract/ComposeExtractorTest.java`, `extract/NginxExtractorTest.java`; fixtures `fixtures/docker/docker-compose.yml`, `fixtures/docker/nginx/default.conf` (skrátené kópie skutočných súborov: služby `redis`, `postgres`, `crm-web` (build `../crm-web`), `sso-mock` (profil `sso`, build context `..`), `liferay` (build `./liferay`), `nginx`; locations `/sso/` (cez `set $sso`), `/web/crm/blacklist` (return 302), `/crm/`, `= /`, `/`)
 
 **Interfaces:**
 - Consumes: `Extractor`, `RepoFiles` (Task 2). Číta `docker/docker-compose.yml` a `docker/nginx/default.conf` relatívne ku koreňu.
@@ -160,7 +160,7 @@ void should_skipBuildOutput_whenPresent()             // fixture other/target/po
   - `Service {image?, build?, ports?, profile?}`; `DEPENDS_ON` Service→Service (zoznam aj mapa `depends_on`); `BUILT_FROM` Service→Module.
   - `Route {kind: proxy|redirect, exact?: true}` s id = cesta location (`/crm/`, `= /` → id `/`, prop `exact:true`; `location /` → id `/*`, aby sa odlíšili); `(Service nginx)-[:ROUTES]->(Route)`; `PROXIES_TO` Route→Service; `REDIRECTS_TO` Route→Route.
 
-Pravidlá BUILT_FROM: `build` reťazec alebo `build.context` + `dockerfile` → adresár relatívne k `docker/`; ak je v ňom `pom.xml` (v repe), hrana na jeho modul. Výnimky v explicitnej mape s komentárom (legacy WAR-y sa do Liferay hot-deployujú, nie buildujú v image): `liferay` → `customercare-portlets`, `customercare-theme`. `crm-web-rs` nemá Maven modul → žiadna hrana. Hrana sa vytvorí len ak cieľový `Module` už existuje (StructureExtractor spúšťa PomExtractor prvý; inak hranu vynechaj).
+Pravidlá BUILT_FROM: `build` reťazec alebo `build.context` + `dockerfile` → adresár relatívne k `docker/`; ak je v ňom `pom.xml` (v repe), hrana na jeho modul. Výnimky v explicitnej mape s komentárom (legacy WAR-y sa do Liferay hot-deployujú, nie buildujú v image): `liferay` → `customercare-portlets`, `customercare-theme`. Hrana sa vytvorí len ak cieľový `Module` už existuje (StructureExtractor spúšťa PomExtractor prvý; inak hranu vynechaj).
 Pravidlá nginx: `proxy_pass http://<host>:<port>` → Service `<host>`; `proxy_pass $var` → hodnota z `set $var http://<host>:…` v tom istom bloku; `return 30x <cieľ>` → Route s najdlhším prefixom, ktorý je prefixom cieľa (`/crm/blacklist/search` → `/crm/`), pri `= /` zhoda presná.
 
 - [ ] **Step 1: Failing testy**
@@ -168,7 +168,7 @@ Pravidlá nginx: `proxy_pass http://<host>:<port>` → Service `<host>`; `proxy_
 ```java
 // ComposeExtractorTest
 @Test @DisplayName("Načíta služby s image a profilom")
-void should_createServices_whenComposeParsed()      // Service redis {image:"redis:7.4-alpine"}, Service crm-web-rs {profile:"rs"}
+void should_createServices_whenComposeParsed()      // Service redis {image:"redis:7.4-alpine"}, Service sso-mock {profile:"sso"}
 @Test @DisplayName("depends_on ako mapa aj zoznam vytvorí hrany")
 void should_createDependsOn_whenListOrMap()         // crm-web→postgres (mapa s condition), nginx→crm-web (zoznam)
 @Test @DisplayName("Služba buildovaná z adresára s pom.xml je BUILT_FROM modul")
@@ -183,7 +183,7 @@ void should_linkRoutesToNginx_whenConfParsed()      // 6 hrán ROUTES z Service 
 @Test @DisplayName("proxy_pass na host vytvorí PROXIES_TO")
 void should_proxyToService_whenProxyPassHasHost()   // /crm/ → crm-web, /* → liferay
 @Test @DisplayName("proxy_pass cez premennú sa vyrieši zo set")
-void should_resolveVariable_whenProxyPassUsesSet()  // /crm-rs/ → crm-web-rs
+void should_resolveVariable_whenProxyPassUsesSet()  // /sso/ → sso-mock
 @Test @DisplayName("Presmerovanie ide na location s najdlhším prefixom")
 void should_redirectToLongestPrefix_whenReturn302() // /web/crm/blacklist → /crm/; "/" (exact) → /web/crm/blacklist
 ```

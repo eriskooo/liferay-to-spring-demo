@@ -24,7 +24,7 @@ class AppTargetTest {
     @Test
     @DisplayName("Neznámy cieľ je chyba s nápovedou")
     void should_fail_when_targetUnknown() {
-        assertThatThrownBy(() -> AppTarget.of(config("rust"))).hasMessageContaining("legacy|migrated");
+        assertThatThrownBy(() -> AppTarget.of(config("unknown"))).hasMessageContaining("legacy|migrated");
     }
 
     private static E2eConfig config(String target) {

@@ -30,7 +30,7 @@ Ciele:
 Ne-ciele:
 - symbolová vrstva (JavaParser, triedy/metódy/volania) – na pochopenie Neo4j zbytočne ťažká,
 - pripojenie agenta cez MCP – môže prísť neskôr,
-- zmena existujúcich aplikácií (legacy, crm-web, crm-web-rs, e2e) alebo bežného stacku,
+- zmena existujúcich aplikácií (legacy, crm-web, e2e) alebo bežného stacku,
 - prenos celých `poznamky/` do grafu (len `05` a `07`; ostatné súbory sa ukotvia ako uzly `Note`).
 
 Anti-ciele (zlyhanie, aj keby to technicky fungovalo):
@@ -90,7 +90,7 @@ Vzťahy:
 - `(Service)-[:DEPENDS_ON]->(Service)` – z `depends_on`,
 - `(Service)-[:BUILT_FROM]->(Module)` – z `build` kontextu / Dockerfile (ak sa dá jednoznačne určiť, inak mapa v extraktore s komentárom),
 - `(Service {id:'nginx'})-[:ROUTES]->(Route)` – každý `location` patrí nginx (aby dotaz 3 vedel ísť „cez nginx“),
-- `(Route)-[:PROXIES_TO]->(Service)` – z `proxy_pass` (host = názov služby; ak je cieľ premenná, napr. `$crm_rs`,
+- `(Route)-[:PROXIES_TO]->(Service)` – z `proxy_pass` (host = názov služby; ak je cieľ premenná, napr. `$sso`,
   vyrieši sa z `set`/`resolver` v tom istom súbore alebo explicitnou mapou s komentárom),
   `(Route)-[:REDIRECTS_TO]->(Route)` pre `return 30x` – cieľ = `location` s najdlhším zhodným prefixom,
 - `(Module)-[:DECLARES]->(Portlet|Endpoint)`,

@@ -12,7 +12,7 @@
 
 ## Global Constraints
 
-- `input/` je read-only; `crm-web-rs/` sa nemení (len README v Tasku 11).
+- `input/` je read-only.
 - Legacy moduly sa kompilujú s `--release 8` – **len Java 8 API** (žiadne `var`, records, `List.of`, `toList()`, `isBlank`, `Files.readString`).
 - Identifikátory anglicky; komentáre v kóde **po slovensky** a vysvetľujú rozhodnutie / legacy ekvivalent, nie čo kód robí. Každá public metoda má JavaDoc.
 - Testy `should_x_when_y`, `@DisplayName` po slovensky (ako ostatné testy v repe). Pokryť happy path, chybný vstup, prázdne, hranice.
@@ -72,7 +72,7 @@
 | `e2e/src/test/java/com/example/crm/e2e/pages/*` | `SearchPage`, `ResultPage`, `DetailPage`, `CreatePage` |
 | `e2e/src/test/java/com/example/crm/e2e/BlacklistCharacterizationIT.java` | 7 scenárov |
 | `docker/e2e.sh`, `docker/e2e.ps1` | spúšťanie cieľov za sebou |
-| `e2e/README.md`, `poznamky/12-charakterizacni-e2e-testy.md`, `poznamky/README.md`, `docs/MIGRACIA.md`, `CLAUDE.md`, `README.md`, `legacy/README.md`, `crm-web/README.md`, `crm-web-rs/README.md` | dokumentácia |
+| `e2e/README.md`, `poznamky/12-charakterizacni-e2e-testy.md`, `poznamky/README.md`, `docs/MIGRACIA.md`, `CLAUDE.md`, `README.md`, `legacy/README.md`, `crm-web/README.md` | dokumentácia |
 
 ---
 
@@ -2979,7 +2979,7 @@ class AppTargetTest {
     @Test
     @DisplayName("Neznámy cieľ je chyba s nápovedou")
     void should_fail_when_targetUnknown() {
-        assertThatThrownBy(() -> AppTarget.of(config("rust"))).hasMessageContaining("legacy|migrated");
+        assertThatThrownBy(() -> AppTarget.of(config("unknown"))).hasMessageContaining("legacy|migrated");
     }
 
     private static E2eConfig config(String target) {
@@ -4123,7 +4123,7 @@ Zapíš si zoznam všetkých zlyhaní (názov testu, očakávané vs. skutočné
 - [ ] **Step 2: Oprava hlášky po zmene stavu**
 
 `crm-web/src/main/resources/messages.properties`: `blacklist.detail.changed=Stav záznamu bol zmenený.`
-Uprav všetky miesta, ktoré overujú starý text: `grep -rln "Záznam bol zmenený" crm-web/src/test docker crm-web-rs` – v `crm-web/src/test` a `docker/smoke-migration.sh` zmeň na `Stav záznamu bol zmenený.`. `crm-web-rs` číta texty z `crm-web` – ak má test na starý text, uprav ho tiež (jediná povolená zmena v `crm-web-rs` mimo README; inak `bash crm-web-rs/test.sh` spadne).
+Uprav všetky miesta, ktoré overujú starý text: `grep -rln "Záznam bol zmenený" crm-web/src/test docker` – v `crm-web/src/test` a `docker/smoke-migration.sh` zmeň na `Stav záznamu bol zmenený.`.
 
 - [ ] **Step 3: Oprava hlášky prázdnej poznámky**
 
@@ -4140,7 +4140,6 @@ Pre každé ďalšie zlyhanie z kroku 1: porovnaj s legacy (rovnaký test je na 
 Run: `bash docker/build-and-deploy.sh` → `Hotovo …`
 Run: `bash docker/e2e.sh all` → Expected: `E2E OK`.
 Run: `bash docker/smoke.sh` → `SMOKE OK`; `bash docker/smoke-migration.sh` → `MIGRATION SMOKE OK`.
-Ak sa menil `crm-web-rs` test: `bash crm-web-rs/test.sh` → PASS.
 
 - [ ] **Step 6: Checkpoint** – `git status`.
 
@@ -4151,7 +4150,7 @@ Ak sa menil `crm-web-rs` test: `bash crm-web-rs/test.sh` → PASS.
 **Files:**
 - Create: `e2e/README.md`
 - Create: `poznamky/12-charakterizacni-e2e-testy.md`
-- Modify: `poznamky/README.md`, `docs/MIGRACIA.md`, `CLAUDE.md`, `README.md`, `legacy/README.md`, `crm-web/README.md`, `crm-web-rs/README.md`
+- Modify: `poznamky/README.md`, `docs/MIGRACIA.md`, `CLAUDE.md`, `README.md`, `legacy/README.md`, `crm-web/README.md`
 
 - [ ] **Step 1: `e2e/README.md` (česky)**
 
@@ -4183,15 +4182,14 @@ a do doporučeného pořadí za `06`: `→ 12`.
 
 - Do mapovací tabulky: `| backend DAO v tom samém JVM (Spring JDBC, DAO po tabulkách, ruční SQL + RowMapper) | JPA entity + Spring Data repository + mapper na doménu nad stejnými tabulkami; schéma zůstává backendu (ddl-auto=validate) |` a `| log portletu (log4j z deploye Liferay) | soubor aplikace + audit kontrakt AUDIT event=… |`.
 - Nová sekce **Audit log (kontrakt)** – formát, eventy a pořadí klíčů (z Global Constraints), kdo zapisuje (controller po úspěchu), co se nezapisuje (osobní údaje, neúspěch), kde je log (`docker/logs/...`).
-- V sekci 10 „Co demo záměrně neřeší“ uprav větu o in-memory backendu: blacklist je na sdílené DB, dashboard a `crm-web-rs` zůstávají in-memory.
+- V sekci 10 „Co demo záměrně neřeší“ uprav větu o in-memory backendu: blacklist je na sdílené DB, dashboard zůstává in-memory.
 
 - [ ] **Step 4: README a CLAUDE.md**
 
-- `CLAUDE.md`: v „Runtime architecture“ přidat Postgres (`:5432`, schéma `blacklist` sdílená legacy + crm-web, `crm-web-rs` a dashboard in-memory) a `docker/logs/`; nahradit větu „Each app has its **own** in-memory blacklist data“ za sdílenou DB; v „Build & run“ přidat `bash docker/e2e.sh legacy|migrated|all` (sériově, ne současně se smoke skripty – oba resetují DB) a poznámku, že `mvn verify` legacy i crm-web potřebuje Docker (Testcontainers Postgres); do Status přidat bod 4 (e2e, spec + plán `2026-10-16-e2e-charakterizacne-testy*`).
+- `CLAUDE.md`: v „Runtime architecture“ přidat Postgres (`:5432`, schéma `blacklist` sdílená legacy + crm-web, dashboard in-memory) a `docker/logs/`; nahradit větu „Each app has its **own** in-memory blacklist data“ za sdílenou DB; v „Build & run“ přidat `bash docker/e2e.sh legacy|migrated|all` (sériově, ne současně se smoke skripty – oba resetují DB) a poznámku, že `mvn verify` legacy i crm-web potřebuje Docker (Testcontainers Postgres); do Status přidat bod 4 (e2e, spec + plán `2026-10-16-e2e-charakterizacne-testy*`).
 - `README.md` (kořen): Postgres v tabulce služeb, odkaz na `e2e/README.md`.
 - `legacy/README.md`: tabulka stacku – sdílená DB Postgres, log `docker/logs/liferay/customercare-portlet.log`.
 - `crm-web/README.md`: perzistence JPA (entity v `blacklist/jpa`, mapper, `ddl-auto=validate`), `crm.blacklist.store` (`memory` default / profil `jpa` v Dockeru), log `docker/logs/crm-web/crm-web.log`, audit.
-- `crm-web-rs/README.md`: sekce „Vědomá omezení“ – blacklist zůstává in-memory, data se po zavedení sdílené DB rozcházejí s Java appkami.
 
 - [ ] **Step 5: Kontrola anonymizácie a záverečné overenie**
 

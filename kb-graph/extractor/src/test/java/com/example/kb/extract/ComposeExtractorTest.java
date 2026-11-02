@@ -42,7 +42,7 @@ class ComposeExtractorTest {
         assertThat(g.count("Service")).isEqualTo(6);
         assertThat(node(g, service("redis")).props()).containsEntry("image", "redis:7.4-alpine")
                 .containsEntry("ports", "6379:6379");
-        assertThat(node(g, service("crm-web-rs")).props()).containsEntry("profile", "rs");
+        assertThat(node(g, service("sso-mock")).props()).containsEntry("profile", "sso");
         assertThat(node(g, service("crm-web")).props()).containsEntry("build", "../crm-web");
     }
 

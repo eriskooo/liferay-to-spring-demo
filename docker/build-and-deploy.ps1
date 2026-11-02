@@ -1,10 +1,6 @@
 # Build legacy app and SSO mock, start the Docker stack and hot-deploy the WARs (PowerShell 5.1).
-# -WithRs adds the optional Rust copy crm-web-rs (compose profile "rs"); by default it is neither built nor started.
-param([switch]$WithRs)
 $ErrorActionPreference = 'Stop'
-$profileArgs = @()
 $next = 'docker\smoke.ps1; docker\smoke-migration.ps1'
-if ($WithRs) { $profileArgs = @('--profile', 'rs'); $next += '; docker\smoke-rs.ps1' }
 $root = Split-Path -Parent $PSScriptRoot
 
 mvn -q -B -f "$root\legacy\pom.xml" verify
@@ -18,8 +14,7 @@ New-Item -ItemType Directory -Force "$PSScriptRoot\deploy" | Out-Null
 
 Push-Location $PSScriptRoot
 try {
-    # First build of the Rust app (crm-web-rs, only with -WithRs) in Docker takes a few minutes, later ones are cached.
-    docker compose @profileArgs up -d --build
+    docker compose up -d --build
     if ($LASTEXITCODE -ne 0) { throw 'docker compose up failed' }
 } finally {
     Pop-Location

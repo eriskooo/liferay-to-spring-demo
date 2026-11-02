@@ -1,15 +1,8 @@
 #!/usr/bin/env bash
 # Build legacy appky a SSO mocku, štart Docker stacku a hot deploy WAR-ov do Liferay.
-# --with-rs pridá voliteľnú Rust kópiu crm-web-rs (compose profil "rs"), predvolene sa nebuilduje ani neštartuje.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-PROFILE_ARGS=()
 NEXT="bash docker/smoke.sh && bash docker/smoke-migration.sh"
-case "${1:-}" in
-    "") ;;
-    --with-rs) PROFILE_ARGS=(--profile rs); NEXT="$NEXT && bash docker/smoke-rs.sh" ;;
-    *) echo "Použitie: $0 [--with-rs]" >&2; exit 2 ;;
-esac
 
 mvn -q -B -f "$ROOT/legacy/pom.xml" verify
 mvn -q -B -f "$ROOT/sso-mock/pom.xml" verify
@@ -18,8 +11,7 @@ cp "$ROOT/legacy/sso-portal-api/target/sso-portal-api.jar" "$ROOT/docker/liferay
 mkdir -p "$ROOT/docker/deploy"
 
 cd "$ROOT/docker"
-# Prvý build Rust appky (crm-web-rs, len s --with-rs) v Dockeri trvá niekoľko minút, ďalšie idú z cache.
-docker compose "${PROFILE_ARGS[@]}" up -d --build
+docker compose up -d --build
 
 # Čakanie na deploy sledujeme len v logoch od tohto okamihu – staršie behy kontajnera by dali falošné "hotovo".
 DEPLOY_START="$(date -u +%Y-%m-%dT%H:%M:%SZ)"

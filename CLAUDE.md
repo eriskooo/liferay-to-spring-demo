@@ -17,7 +17,6 @@ Output layout (outside `input/`):
   `poznamky/LOCAL-*` (alias → real-name mapping, anonymization check script) is git-ignored and copied manually.
 - `legacy/`, `sso-mock/`, `docker/` – the runnable "before" app on Liferay 6.2 (sub-project 1, done; see `legacy/README.md`).
 - `crm-web/` – the migrated Spring Boot "after" app (sub-project 2, done; see `crm-web/README.md`, `docs/MIGRACIA.md`).
-- `crm-web-rs/` – Rust (axum + askama) copy of crm-web under `/crm-rs` (sub-project 3; see `crm-web-rs/README.md`, `docs/RUST.md`).
 - `kb-graph/` – knowledge base in Neo4j: structure extracted from code + lessons, saved Cypher queries (bonus outside the migration project; see `kb-graph/README.md`).
 
 Docs and notes (`README.md` files, `docs/*.md`, `poznamky/`) are written in **Czech**, like the source materials.
@@ -31,13 +30,11 @@ Exception: `docs/superpowers/` (specs and plans) stay in Slovak as historical re
   1. Legacy "before" app – spec + plan `docs/superpowers/*/2026-10-12-legacy-liferay-app*`.
   2. Spring Boot "after" app – spec + plan `docs/superpowers/*/2026-10-12-crm-web-migration*`. Only the blacklist is migrated;
      the dashboard (incl. service cancellation) stays in Liferay.
-  3. Rust copy of crm-web – spec + plan `docs/superpowers/*/2026-10-14-crm-web-rs*`. Same blacklist, same SSO/Redis contract,
-     own cookie `CRM_RS_SESSION` (Path=/crm-rs); crm-web unchanged, the Liferay "Blacklist" link still goes to Java.
-  4. Characterization e2e tests – spec + plan `docs/superpowers/*/2026-10-16-e2e-charakterizacne-testy*`. Playwright Java
+  3. Characterization e2e tests – spec + plan `docs/superpowers/*/2026-10-16-e2e-charakterizacne-testy*`. Playwright Java
      suite `e2e/` written on legacy, green on both apps (UI + DB + audit log). Introduced shared Postgres for the
      blacklist (legacy Spring JDBC DAO per table like the original, crm-web JPA/Hibernate), audit log contract,
      file logs. Decisions and pitfalls are summarized in `poznamky/12-*` §5–6.
-  5. Bonus, NOT part of the migration project: knowledge base in a graph (Neo4j learning demo, 2026-10-21) – spec + plan `docs/superpowers/*/2026-10-21-kb-graph-neo4j*`.
+  4. Bonus, NOT part of the migration project: knowledge base in a graph (Neo4j learning demo, 2026-10-21) – spec + plan `docs/superpowers/*/2026-10-21-kb-graph-neo4j*`.
      `kb-graph/`: Java extractor generates the repo structure from code (POM, compose, nginx, portlet.xml, endpoints,
      DDL, `poznamky/*.md`) into `graph/structure.json`; hand-written lessons in `lessons/*.json` (every pitfall of
      `poznamky/07` + concept map `05`) anchored to structure nodes; `load` validates anchors, wipes and refills Neo4j
@@ -50,10 +47,8 @@ Exception: `docs/superpowers/` (specs and plans) stay in Slovak as historical re
 ## Runtime architecture (big picture)
 
 All in `docker/docker-compose.yml`: nginx (:8000, single entry) → Liferay 6.2 (:8080, legacy portlets), `crm-web` (`/crm`),
-`crm-web-rs` (`/crm-rs`, :8082), SSO mock (`/sso`), Redis + RedisInsight (:5540), Postgres 16 (host **:5433** – 5432 is
+SSO mock (`/sso`), Redis + RedisInsight (:5540), Postgres 16 (host **:5433** – 5432 is
 often taken by a local PostgreSQL service; inside compose `postgres:5432`).
-- `crm-web-rs` reads texts and static files straight from crm-web (build context = repo root, allowlist in
-  `crm-web-rs/Dockerfile.dockerignore`).
 - **Strangler:** nginx redirects `/web/crm/blacklist` → `/crm/blacklist/search`; everything else under `/web/…` goes to Liferay.
   `crm-web` pages pull CSS from the Liferay theme via nginx, so they look unstyled outside :8000.
 - **Identity:** owned by the SSO mock, both apps resolve it from the `SSO_ID` cookie (legacy via the shaded
@@ -65,7 +60,7 @@ often taken by a local PostgreSQL service; inside compose `postgres:5432`).
   DDL + seed in `docker/postgres/init/` (one seed file for container init, Testcontainers tests, smoke and e2e reset).
   Legacy: Spring JDBC DAO per table + commons-dbcp2 (`-Dcrm.db.*`); crm-web: JPA (entities in `blacklist/jpa`, mapper,
   `ddl-auto=validate` in profile `jpa`, default `crm.blacklist.store=memory` so `@SpringBootTest`s run without DB).
-  Dashboard and `crm-web-rs` stay in-memory.
+  Dashboard stays in-memory.
 - **Logs in files:** `docker/logs/liferay/customercare-portlet.log` (portlet's own `log4j.xml` – Liferay deploy injects
   a console-only `log4j.properties`) and `docker/logs/crm-web/crm-web.log`. Audit contract `AUDIT event=… k=v` (same in
   both apps, see `docs/MIGRACIA.md` §11).
@@ -87,19 +82,15 @@ If the script is missing on this machine, it has to be copied manually together 
 Prereqs: Docker Desktop (~3 GB RAM for Liferay), JDK 21, Maven 3.9, Git Bash. Every `docker/*.sh` has a `.ps1` twin.
 - Tests: `mvn -q -B -f legacy/pom.xml verify`, `mvn -q -B -f sso-mock/pom.xml verify`,
   `mvn -q -B -f crm-web/pom.xml verify` (needs Docker – Redis via Testcontainers),
-  `bash crm-web-rs/test.sh` (cargo test in Docker + temporary Redis, no local Rust; one file: `bash crm-web-rs/test.sh --test blacklist_search`).
   legacy and crm-web `verify` need Docker (Testcontainers Postgres/Redis). E2e: `bash docker/e2e.sh legacy|migrated|all`
   (needs running stack + Google Chrome, or `-De2e.browser=chromium`) → `E2E OK`; never concurrently with smoke scripts
   (all reset the shared DB). Failure artifacts: `e2e/target/e2e-artifacts/`.
 - One class: legacy `mvn -q -B -f legacy/pom.xml test -pl <module> -am -Dtest=ClassName -Dsurefire.failIfNoSpecifiedTests=false`
   (modules: `sso-portal-api`, `frontend-base-customization`, `customercare-portlets`, `customercare-theme`);
   crm-web `mvn -q -B -f crm-web/pom.xml test -Dtest=ClassName`.
-- Stack: `bash docker/build-and-deploy.sh [--with-rs]` (builds all three, compose up; `crm-web-rs` is an optional compose profile `rs`, started only with `--with-rs`, hot-deploys into Liferay and **blocks until the
-  portlets are deployed**, max 10 min; first start 1–3 min) – don't write own wait loops, then `bash docker/smoke.sh` → `SMOKE OK` and `bash docker/smoke-migration.sh` → `MIGRATION SMOKE OK`
-  and (with `--with-rs`) `bash docker/smoke-rs.sh` → `RS SMOKE OK` (not concurrently with smoke-migration – both stop Redis).
+- Stack: `bash docker/build-and-deploy.sh` (builds all three, compose up, hot-deploys into Liferay and **blocks until the
+  portlets are deployed**, max 10 min; first start 1–3 min) – don't write own wait loops, then `bash docker/smoke.sh` → `SMOKE OK` and `bash docker/smoke-migration.sh` → `MIGRATION SMOKE OK`.
   Liferay admin :8080 `test@liferay.com`/`test`; demo operators `spravca` (all) / `citatel` (read-only); customers `C-1001`, `C-1002`.
-- Load test Java vs Rust: `bash docker/bench.sh` (needs only `docker compose up -d redis sso-mock crm-web crm-web-rs`;
-  oha in Docker, results in `docs/BENCHMARK.md`).
 - Shared session: `bash docker/show-session.sh`, `bash docker/session-flag.sh PORTLET|REDIS`.
 - Knowledge graph (independent of the stack): `bash kb-graph/kb.sh up|load|check|guide|down` (Neo4j Browser :7474,
   `neo4j`/`kbdemo123`, guide server :7475); tests `mvn -q -B -f kb-graph/extractor/pom.xml verify` (needs Docker).
@@ -130,9 +121,3 @@ Prereqs: Docker Desktop (~3 GB RAM for Liferay), JDK 21, Maven 3.9, Git Bash. Ev
   **only `target/` exists, no `src/`**), `customercare-testing`, `one-portal-portlets` (prebuilt WAR only).
 - `input/*.pptx`, `*.docx`, `*.html` + `*.py` generators — presentations and a Q&A document describing the migration approach.
 - `input/*_war*.log` — runtime logs of the PoC (stubbed services, one JSP binding error).
-
-## Rust app conventions (`crm-web-rs/`)
-
-- Identifiers English, comments Slovak (migration decision / Java equivalent). Tests `should_x_when_y` with a `///` Slovak description.
-- askama templates: methods get only literals, `&str` or Copy values (fields arrive by reference), no custom filters; `|safe` only for `FieldErrors` HTML.
-- No `unwrap`/`expect` on user input or runtime I/O; handlers return `Result<Response, AppError>`.

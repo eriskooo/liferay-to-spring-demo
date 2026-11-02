@@ -1,6 +1,0 @@
-<select id="conditionType" name="conditionType">
-    <option value="">{{ tags.msg("blacklist.create.choose") }}</option>
-    {% for t in condition_types %}
-    <option value="{{ t.name() }}"{% if selected_condition == t.name() %} selected{% endif %}>{{ tags.msg_of("blacklist.condition.", t.name()) }}</option>
-    {% endfor %}
-</select>

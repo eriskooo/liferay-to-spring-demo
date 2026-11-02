@@ -419,13 +419,6 @@
     },
     {
       "label" : "Note",
-      "id" : "11-appka-v-inom-jazyku.md",
-      "props" : {
-        "title" : "Další aplikace v jiném jazyce za stranglerem"
-      }
-    },
-    {
-      "label" : "Note",
       "id" : "12-charakterizacni-e2e-testy.md",
       "props" : {
         "title" : "Charakterizační e2e testy jako záchranná síť migrace"
@@ -483,13 +476,6 @@
     },
     {
       "label" : "Route",
-      "id" : "/crm-rs/",
-      "props" : {
-        "kind" : "proxy"
-      }
-    },
-    {
-      "label" : "Route",
       "id" : "/crm/",
       "props" : {
         "kind" : "proxy"
@@ -515,15 +501,6 @@
       "props" : {
         "build" : "../crm-web",
         "ports" : "8081:8080"
-      }
-    },
-    {
-      "label" : "Service",
-      "id" : "crm-web-rs",
-      "props" : {
-        "build" : "..",
-        "ports" : "8082:8080",
-        "profile" : "rs"
       }
     },
     {
@@ -1617,28 +1594,6 @@
       "type" : "DEPENDS_ON",
       "from" : {
         "label" : "Service",
-        "id" : "crm-web-rs"
-      },
-      "to" : {
-        "label" : "Service",
-        "id" : "redis"
-      }
-    },
-    {
-      "type" : "DEPENDS_ON",
-      "from" : {
-        "label" : "Service",
-        "id" : "crm-web-rs"
-      },
-      "to" : {
-        "label" : "Service",
-        "id" : "sso-mock"
-      }
-    },
-    {
-      "type" : "DEPENDS_ON",
-      "from" : {
-        "label" : "Service",
         "id" : "liferay"
       },
       "to" : {
@@ -1962,17 +1917,6 @@
       },
       "to" : {
         "label" : "Note",
-        "id" : "11-appka-v-inom-jazyku.md"
-      }
-    },
-    {
-      "type" : "LINKS_TO",
-      "from" : {
-        "label" : "Note",
-        "id" : "README.md"
-      },
-      "to" : {
-        "label" : "Note",
         "id" : "12-charakterizacni-e2e-testy.md"
       }
     },
@@ -2029,17 +1973,6 @@
       "to" : {
         "label" : "Service",
         "id" : "liferay"
-      }
-    },
-    {
-      "type" : "PROXIES_TO",
-      "from" : {
-        "label" : "Route",
-        "id" : "/crm-rs/"
-      },
-      "to" : {
-        "label" : "Service",
-        "id" : "crm-web-rs"
       }
     },
     {
@@ -2106,17 +2039,6 @@
       "to" : {
         "label" : "Route",
         "id" : "/*"
-      }
-    },
-    {
-      "type" : "ROUTES",
-      "from" : {
-        "label" : "Service",
-        "id" : "nginx"
-      },
-      "to" : {
-        "label" : "Route",
-        "id" : "/crm-rs/"
       }
     },
     {
