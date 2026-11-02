@@ -1,6 +1,6 @@
 # Prezentace: postup migrace pro tým stávající aplikace
 
-- `migrace-postup-pro-tym-legacy.pdf` – 12 slajdů s ukázkou možného postupu (souběh, sdílená session, sdílená DB, úpravy staré aplikace).
+- `migrace-postup-pro-tym-legacy.pdf` – 12 slajdů, ukázka jedné z možností migrace jako inspirace (souběh, sdílená session, sdílená DB, úpravy staré aplikace).
 - `prezentace.html` – zdroj (HTML, 16:9); `img/` – screenshoty z běžícího dema (Chrome, přihlášený `spravca`, zákazník `C-1001`).
 
 ## Přegenerování PDF

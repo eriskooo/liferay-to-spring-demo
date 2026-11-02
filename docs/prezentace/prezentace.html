@@ -2,7 +2,7 @@
 <html lang="cs">
 <head>
 <meta charset="UTF-8">
-<title>Migrace z Liferay 6.2 na Spring Boot – ukázka možného postupu</title>
+<title>Migrace z Liferay 6.2 na Spring Boot – ukázka jedné z možností</title>
 <!-- Zdroj PDF prezentace pro tým stávající aplikace. PDF: viz docs/prezentace/README.md. Screenshoty z běžícího dema (img/). -->
 <style>
   @page { size: 1280px 720px; margin: 0; }
@@ -64,8 +64,8 @@
 <!-- 1 -->
 <section class="slide title-slide">
   <p class="kicker" style="color:#8fd6b4">Pilot: modul blacklist</p>
-  <h1>Migrace z Liferay 6.2 na Spring Boot<br>ukázka možného postupu</h1>
-  <p class="lead">Pro tým stávající aplikace: co by se ve staré aplikaci změnilo, co by zůstalo a jak se to dá ověřit.</p>
+  <h1>Migrace z Liferay 6.2 na Spring Boot<br>ukázka jedné z možností</h1>
+  <p class="lead">Inspirace pro tým stávající aplikace: jak může vypadat souběh staré a nové aplikace se sdílenou session a daty.</p>
   <p class="lead" style="margin-top:40px;font-size:18px;color:#a9b6c6">Listopad 2026 · ukázky z běžícího dema</p>
 </section>
 
@@ -223,7 +223,7 @@ APP_BLACKLIST_LAST_CRITERIA
         <td>API nad stávajícími službami (včetně transakčních operací). Stávající volání se nemění.</td>
         <td>plán, po analýze backendu</td></tr>
   </table>
-  <p class="muted small" style="margin-top:14px">Úpravy jen přidávají, nic neodebírají. V reálném projektu by šly přes běžný release proces staré aplikace, před přepnutím prvního modulu.</p>
+  <p class="muted small" style="margin-top:14px">Úpravy jen přidávají, nic neodebírají. V praxi by šly přes běžný release proces staré aplikace, před přepnutím prvního modulu.</p>
   <div class="num">9</div>
 </section>
 
@@ -282,29 +282,29 @@ APP_BLACKLIST_LAST_CRITERIA
 
 <!-- 12 -->
 <section class="slide">
-  <p class="kicker">Možné pokračování</p>
-  <h1>Shrnutí</h1>
+  <p class="kicker">Na závěr</p>
+  <h1>Co demo ukazuje</h1>
   <div class="row" style="flex:0 0 auto">
     <div class="col">
-      <h2>Co demo ukazuje</h2>
+      <h2>Ve zkratce</h2>
       <ul class="check">
         <li>Postupná náhrada po modulech, souběh za nginx</li>
-        <li>Úprava session fasády: zápis do Redisu a přepínač čtení</li>
+        <li>Session fasáda staré aplikace zapisuje i do Redisu, čtení podle přepínače</li>
         <li>Sdílená databáze bez převodu dat</li>
-        <li>Testy na staré aplikaci jako měřítko hotového modulu</li>
+        <li>Stejné testy zelené na staré i nové aplikaci</li>
       </ul>
     </div>
     <div class="col box">
-      <h2>Co by reálný projekt předpokládal</h2>
+      <h2>Kde hledat víc</h2>
       <ul class="small" style="padding-left:22px">
-        <li style="font-size:18px">Zdrojové kódy backendu a interní Maven repozitář (napojení backendu)</li>
-        <li style="font-size:18px">Testovací prostředí se SSO portálem a testovací data</li>
-        <li style="font-size:18px">Scénáře dalšího modulu, nejlépe společně s lidmi, kteří ho znají</li>
-        <li style="font-size:18px">Úpravy session fasády jsou malé a otevřené ke kontrole; šly by vaším běžným release procesem</li>
+        <li style="font-size:18px"><code>README.md</code> – strategie, kroky, rizika</li>
+        <li style="font-size:18px"><code>docs/MIGRACIA.md</code> – mapování před → po</li>
+        <li style="font-size:18px"><code>docs/QA-ZAKAZNIK.md</code> – otázky a odpovědi</li>
+        <li style="font-size:18px"><code>docker/build-and-deploy.sh</code> – spuštění dema, <code>docker/e2e.sh all</code> – testy</li>
       </ul>
     </div>
   </div>
-  <p class="muted small" style="margin-top:22px">Demo je spustitelné lokálně (<code>docker/build-and-deploy.sh</code>), testy: <code>docker/e2e.sh all</code>.</p>
+  <p class="muted small" style="margin-top:22px">Demo je jen inspirace – jedna z možností, jak migraci pojmout.</p>
   <div class="num">12</div>
 </section>
 
