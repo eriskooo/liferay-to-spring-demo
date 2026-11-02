@@ -1,4 +1,6 @@
-# Migrace Liferay 6.2 → Spring Boot: demo projektového vedení
+# liferay-to-spring-demo
+
+**Migrace Liferay 6.2 → Spring Boot: demo projektového vedení**
 
 ![Souběh staré a nové aplikace za nginx se sdílenou session a databází](docs/img/architektura-subeh.svg)
 
@@ -123,6 +125,7 @@ Předpoklady: Docker Desktop (~3 GB RAM pro Liferay), JDK 21, Maven 3.9, Git Bas
 Každý `docker/*.sh` má dvojče `.ps1`.
 
 ```bash
+git clone https://github.com/eriskooo/liferay-to-spring-demo.git && cd liferay-to-spring-demo
 bash docker/build-and-deploy.sh     # build, docker compose up, deploy do Liferay (čeká na nasazení portletů)
 bash docker/smoke.sh                # legacy end-to-end            → SMOKE OK
 bash docker/smoke-migration.sh      # souběh obou aplikací         → MIGRATION SMOKE OK
