@@ -433,6 +433,13 @@
     },
     {
       "label" : "Note",
+      "id" : "14-otazky-pred-demom.md",
+      "props" : {
+        "title" : "Co je třeba vyjasnit před demem na reálném projektu"
+      }
+    },
+    {
+      "label" : "Note",
       "id" : "README.md",
       "props" : {
         "title" : "Znalostní báze: migrace legacy CRM z Liferay 6.2"
@@ -1929,6 +1936,17 @@
       "to" : {
         "label" : "Note",
         "id" : "13-cesta-requestu.md"
+      }
+    },
+    {
+      "type" : "LINKS_TO",
+      "from" : {
+        "label" : "Note",
+        "id" : "README.md"
+      },
+      "to" : {
+        "label" : "Note",
+        "id" : "14-otazky-pred-demom.md"
       }
     },
     {

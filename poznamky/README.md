@@ -18,6 +18,7 @@ lokálního, git-ignorovaného souboru `LOCAL-aliasy.md`, který se přenáší 
 | [10-liferay62-v-dockeri.md](10-liferay62-v-dockeri.md) | jak rozběhnout Liferay 6.2 lokálně (Java 8 ≤ 255, HSQL, deploy, oprávnění hosta, nginx) |
 | [12-charakterizacni-e2e-testy.md](12-charakterizacni-e2e-testy.md) | charakterizační e2e testy (UI + DB + log) napsané na legacy jako akceptační kritérium migrace; co se mění při přenosu, pasti |
 | [13-cesta-requestu.md](13-cesta-requestu.md) | co pošle prohlížeč po submitu JSP formuláře a jak server najde metodu: Liferay (`p_p_id`, fáze, action+render v jednom requestu) vs. Boot (cesta, PRG); proč to není REST |
+| [14-otazky-pred-demom.md](14-otazky-pred-demom.md) | co je třeba vyjasnit před demem na reálném projektu (cíl, podklady, prostředí, výběr úseku, testy, logy, napojení, prezentace); co je rozhodnuto, co blokuje start |
 | [../kb-graph/README.md](../kb-graph/README.md) | znalostní báze v grafu (Neo4j): struktura repa z kódu + pasti a koncepty jako lekce, uložené dotazy, jak přidat poznatek |
 
 Doporučené pořadí na reálném projektu: 00 → 01 → 03 → 13 → 05 → 06 → 12 → 07 (→ 04, pokud se navazuje na PoC).

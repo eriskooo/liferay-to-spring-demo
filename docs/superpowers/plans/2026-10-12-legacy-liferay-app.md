@@ -17,7 +17,7 @@
 - Verzie (presne): Spring `4.3.6.RELEASE`, Liferay API `6.2.5` (`com.liferay.portal:portal-service`, `provided`), `javax.portlet:portlet-api:2.0`, `javax.servlet:javax.servlet-api:3.0.1`, `javax.servlet.jsp:jsp-api:2.2`, `javax.servlet:jstl:1.2`, `jackson-databind:2.9.10.8`, `redis.clients:jedis:2.9.0`, JUnit `5.10.5`, Mockito `4.11.0`, AssertJ `3.27.3`.
 - Koordináty: `groupId=com.example.crm.legacy`, `version=0.1.0-SNAPSHOT`; balíky `com.example.sso.api`, `com.example.crm.frontend.base`, `com.example.crm.frontend`; sso-mock `groupId=com.example.sso`, balík `com.example.ssomock`.
 - ID v Liferay: portlety `blacklist_WAR_customercareportlet`, `dashboard_WAR_customercareportlet`, `header_WAR_customercareportlet`; theme `customercare_WAR_customercaretheme`; site friendly URL `/crm`; stránky `/blacklist`, `/dashboard`.
-- Príkazy sa spúšťajú z koreňa repa `C:\projekty\tmp\brano-liferay-demo`: `mvn -q -B -f legacy/pom.xml …`, `mvn -q -B -f sso-mock/pom.xml …`.
+- Príkazy sa spúšťajú z koreňa repa `C:\projekty\tmp\liferay-to-spring-demo`: `mvn -q -B -f legacy/pom.xml …`, `mvn -q -B -f sso-mock/pom.xml …`.
 - **NIKDY nespúšťaj `git commit` ani `git push`.** Commituje používateľ. Krok „Checkpoint“ je len `git status --short`.
 - **`input/` je read-only a NEČÍTA sa.** Všetok kód je v pláne napísaný nanovo; žiadne názvy klienta, dodávateľa, ľudí, interných systémov, interné URL, heslá ani dáta z logov (`poznamky/00-konvencie.md`).
 - Jazyk: identifikátory po anglicky; komentáre, texty UI (`messages.properties`) a dokumentácia po **slovensky**. Komentáre vysvetľujú **legacy vzor a prečo je dôležitý pre migráciu**, nie čo kód robí. Verejné metódy majú krátky JavaDoc.

@@ -13,7 +13,7 @@
 ## Global Constraints
 
 - Java **21**, Spring Boot **4.1.1** (`spring-boot-starter-parent`), balenie **war**, `groupId=com.example.crm`, `artifactId=crm-web-demo`, `version=0.1.0-SNAPSHOT`, koreňový balík `com.example.crm`.
-- Maven projekt je v **koreni repa** (`pom.xml`, `src/`). Všetky príkazy `mvn` sa spúšťajú z `C:\projekty\tmp\brano-liferay-demo`.
+- Maven projekt je v **koreni repa** (`pom.xml`, `src/`). Všetky príkazy `mvn` sa spúšťajú z `C:\projekty\tmp\liferay-to-spring-demo`.
 - **NIKDY nespúšťaj `git commit` ani `git push`.** Commituje používateľ. Krok „Checkpoint“ je len `git status --short` na kontrolu.
 - **`input/` je read-only a NEČÍTA sa** pri implementácii. Všetok kód a ukážky „pred“ sú v tomto pláne napísané nanovo. Žiadne názvy klienta, dodávateľa, ľudí, interných systémov, interné URL, heslá ani dáta z logov (pravidlá: `poznamky/00-konvencie.md`).
 - Jazyk: identifikátory v kóde po anglicky; komentáre, texty UI (`messages.properties`) a dokumentácia po **slovensky**.

@@ -13,7 +13,7 @@
 ## Global Constraints
 
 - `crm-web/`: Java **21**, Spring Boot **4.1.1** (`spring-boot-starter-parent`), balenie **war**, `groupId=com.example.crm`, `artifactId=crm-web`, `version=0.1.0-SNAPSHOT`, `finalName=crm-web`, koreňový balík `com.example.crm`.
-- Príkazy sa spúšťajú z koreňa repa `C:\projekty\tmp\brano-liferay-demo`: `mvn -q -B -f crm-web/pom.xml …`, `mvn -q -B -f legacy/pom.xml …`.
+- Príkazy sa spúšťajú z koreňa repa `C:\projekty\tmp\liferay-to-spring-demo`: `mvn -q -B -f crm-web/pom.xml …`, `mvn -q -B -f legacy/pom.xml …`.
 - Kontext `server.servlet.context-path=/crm`; session cookie `CRM_SESSION` s `Path=/crm` (nekoliduje s `JSESSIONID` Liferay); konfigurácia `crm.sso.api-url` (default `http://localhost:8090/sso`), `crm.sso.login-url` (default `/sso/login`), `spring.data.redis.host` (default `localhost`).
 - Zdieľané kľúče a ich JSON (kontrakt so starou appkou, presne): hash `crm:session:{SSO_ID}`, TTL 1800 s; `APP_MESSAGES` = `[{"level":"INFO|ERROR","key":"…"}]`; `APP_BLACKLIST_LAST_CRITERIA` = `{"firstName","lastName","identifierValue","state"}` (reťazce alebo null); `APP_LAST_VIEWED_RECORD` = `{"id":<long>,"fullName":"…"}`. Flag starej appky `crm:flags:session-read-source` nová appka len zobrazuje.
 - `SSO_ID` platí len ak zodpovedá `[A-Za-z0-9-]{1,64}`, inak „neprihlásený“ bez HTTP volania.
